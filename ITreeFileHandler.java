@@ -1,3 +1,10 @@
+// --== CS400 Project Two File Header ==--
+// Name: Kaden Almizyed
+// CSL Username: kaden
+// Email: kalmizyed@wisc.edu
+// Lecture #: 004 @4:00pm
+// Notes to Grader:
+
 import java.io.File;
 
 public interface ITreeFileHandler {
@@ -9,5 +16,13 @@ public interface ITreeFileHandler {
      */
     SortedCollectionInterface<ITask> getTreeFromFile(File f);
 
-    SortedCollectionInterface<ITask> writeTreeToFile(File f, SortedCollectionInterface<ITask> tree);
+    /**
+     * Public static method.
+     * From given SortedCollectionInterface tree, convert it
+     * to an XML format and store it in the given File f.
+     * @param f the file to be stored to
+     * @param tree the tree to be stored
+     * @return true if the tree was successfully stored, false otherwise
+     */
+    boolean writeTreeToFile(File f, SortedCollectionInterface<ITask> tree);
 }
