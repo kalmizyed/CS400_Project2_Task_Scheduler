@@ -1,3 +1,5 @@
+import java.util.List;
+
 // --== CS400 Project Two File Header ==--
 // Name: Jack Blake
 // CSL Username: jblake
@@ -18,4 +20,11 @@ public interface IExtendedSortedCollection<T extends Comparable<T>> extends Sort
      * @return the object being removed, or null if nothing was removed
      */
     public T remove(T data);
+    
+    /**
+     * @param min only include items where compareTo with min is greater than or equal to zero
+     * @param max only include items where compareTo with max is less than or equal to zero
+     * @return the list of items in the tree between min and max in order, inclusive
+     */
+    public List<T> getItemsBetween(T min, T max);
 }

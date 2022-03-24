@@ -27,6 +27,15 @@ public interface ITaskSchedulerBackend {
     List<ITask> getOverdue();
 
     /**
+     * Uses the getItemsBetween of the IExtendedSortedCollection by creating Task
+     * objects with Dates made from the given date strings
+     * @param minDateString earliest date string for tasks in the list to return
+     * @param maxDateString latest date string for tasks in the list to return
+     * @return a list of all the tasks between the dates
+     */
+    List<ITask> getBetweenDates(String minDateString, String maxDateString);
+
+    /**
      * Loads the saved state of the tree from an XML file.
      * Makes use of the ITreeFileHandler class.
      */
