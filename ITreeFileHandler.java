@@ -14,7 +14,7 @@ public interface ITreeFileHandler {
      * @param f XML data file representing a binary search tree.
      * @return a SortedCollectionInterface object containing the XML tree's data.
      */
-    SortedCollectionInterface<ITask> getTreeFromFile(File f);
+    IExtendedSortedCollection<ITask> getTreeFromFile(File f);
 
     /**
      * Public static method.
@@ -24,5 +24,5 @@ public interface ITreeFileHandler {
      * @param tree the tree to be stored
      * @return true if the tree was successfully stored, false otherwise
      */
-    boolean writeTreeToFile(File f, SortedCollectionInterface<ITask> tree);
+    boolean writeTreeToFile(File f, IExtendedSortedCollection<ITask> tree);
 }
