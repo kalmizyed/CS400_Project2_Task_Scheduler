@@ -1,3 +1,11 @@
+// --== CS400 Project Two File Header ==--
+// Name: Joseph Cai
+// CSL Username: josephc
+// Email: jbcai@wisc.edu
+// Lecture #: 004 @4:00pm
+// Notes to Grader: 
+
+import java.text.ParseException;
 import java.util.List;
 
 public interface ITaskSchedulerBackend {
@@ -32,8 +40,9 @@ public interface ITaskSchedulerBackend {
      * @param minDateString earliest date string for tasks in the list to return
      * @param maxDateString latest date string for tasks in the list to return
      * @return a list of all the tasks between the dates
+     * @throws ParseException if the input strings are not correctly formatted
      */
-    List<ITask> getBetweenDates(String minDateString, String maxDateString);
+    List<ITask> getBetweenDates(String minDateString, String maxDateString) throws ParseException;
 
     /**
      * Loads the saved state of the tree from an XML file.
