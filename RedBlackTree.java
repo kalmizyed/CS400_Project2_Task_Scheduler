@@ -247,7 +247,11 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
             child.parent = tmp;
         }
     }
-
+    /**
+     * Removes the node with the given data from the tree (using compareTo, not ==)
+     * @param data data that a node must match to be removed 
+     * @return the removed node, or null if the node is node in the tree
+     */
     @Override
     public T remove(T data) {
         Node<T> toRemove = findNodeToRemove(data, root);
@@ -255,7 +259,11 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
         System.out.println("Removing " + toRemove.data + "...");
         return removeHelper(toRemove);
     }
-
+    /**
+     * @param data of the node to remove
+     * @param node currently being checked
+     * @return the node that matched the given data with compareTo
+     */
     protected Node<T> findNodeToRemove(T data, Node<T> node){
         if(node.data.compareTo(data) > 0) {
             if(node.leftChild == null) return null;
@@ -267,26 +275,33 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
         }
         return node;
     }
-
+    /**
+     * Helper for the remove method that removes the Node passed in
+     * @param node to remove
+     * @return the data of the removed node
+     */
     protected T removeHelper(Node<T> node){
         //no children
         if(node.leftChild == null && node.rightChild == null){
             System.out.println("Case 0");
+            //if the node is the root, simply delete it
             if(node == root) {
                 root = null;
                 return node.data;
             }
+            //if the node is red, simply delete it
             if(node.blackHeight == 0){
                 deleteNode(node);
                 return node.data;
             }
+            //if the node is black, set it to a double black, resolve the double black, then delete the node
             node.blackHeight = 2;
             resolveDoubleBlack(node);
             deleteNode(node);
             return node.data;
         }
         T data = node.data;
-        //one child
+        //one child, replace node's data with the child's then delete the child
         if(node.rightChild == null){
             System.out.println("Case 1");
             node.data = node.leftChild.data;
@@ -318,6 +333,10 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
         }
         node.parent.rightChild = null;
     }
+    /**
+     * Prepares the tree for removal of a black leaf node by resolving the double black node (sometime recursivly)
+     * @param db reference to the double black node
+     */
     protected void resolveDoubleBlack(Node<T> db){
         Node<T> parent = db.parent;
         Node<T> sibling;
@@ -326,7 +345,7 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
         System.out.println("db: " + db.getText());
         System.out.println("parent: " + parent.getText());
         System.out.println("sibling: " + sibling.getText());
-        //double black has red sibling
+        //double black has red sibling, rotate and color swap sibling and parent, then recurse at the double black
         if(sibling.blackHeight == 0){
             System.out.println("DoubleBlack Case 2");
             rotate(sibling, parent);
@@ -340,9 +359,11 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
         if((sibling.leftChild == null || sibling.leftChild.blackHeight == 1)
             && (sibling.rightChild == null || sibling.rightChild.blackHeight == 1)){
                 System.out.println("DoubleBlack Case 1");
+                //substract 1 from the double black and the sibling's black heights, add one to the parents
                 db.blackHeight--;
                 sibling.blackHeight--;
                 parent.blackHeight++;
+                //if the parent was originally red, or is the root, all double black is resolved, otherwise recurse at parent
                 if(parent.blackHeight == 1) return;
                 if(parent == root) {
                     root.blackHeight = 1;
@@ -354,7 +375,7 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
         }
         //double black's sibling is black with at least one red child
         System.out.println("DoubleBlack Case 0");
-        //sibling's only red child is oriented inward
+        //sibling's only red child is oriented inward, rotate and color swap sibling and its inner child
         if(sibling.isLeftChild() && (sibling.leftChild == null || sibling.leftChild.blackHeight == 1)){
             int tmp = sibling.blackHeight;
             sibling = sibling.parent;
@@ -382,6 +403,11 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
         parent.blackHeight = tmp;
     }
 
+    /**
+     * @param min all elements in the returned list must be greater than or equal to this
+     * @param max all elements in the returned list must be less than or equal to this
+     * @return a List of items between min and max
+     */
     @Override
     public List<T> getItemsBetween(T min, T max){
         List<T> list = new ArrayList<T>();
