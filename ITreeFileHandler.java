@@ -9,7 +9,6 @@ import java.io.File;
 
 public interface ITreeFileHandler {
     /**
-     * Public static method.
      * From given File f, parse the XML data and convert it to a tree.
      * @param f XML data file representing a binary search tree.
      * @return a SortedCollectionInterface object containing the XML tree's data.
@@ -17,7 +16,6 @@ public interface ITreeFileHandler {
     IExtendedSortedCollection<ITask> getTreeFromFile(File f);
 
     /**
-     * Public static method.
      * From given SortedCollectionInterface tree, convert it
      * to an XML format and store it in the given File f.
      * @param f the file to be stored to
