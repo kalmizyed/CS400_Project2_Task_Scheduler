@@ -19,5 +19,5 @@ SortedCollectionInterface.class: SortedCollectionInterface.java
 	javac SortedCollectionInterface.java
 ITreeFileHandler.class: ITreeFileHandler.java ITask.class IExtendedSortedCollection.class 
 	javac ITreeFileHandler.java
-TreeFileHandlerPlaceholderBD.class: TreeFileHandlerPlaceholder.java ITreeFileHandler.class ITask.class
-	javac TreeFileHandlerPlaceholder.java
+TreeFileHandlerPlaceholderBD.class: TreeFileHandlerPlaceholderBD.java ITreeFileHandler.class ITask.class
+	javac TreeFileHandlerPlaceholderBD.java
