@@ -265,14 +265,18 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
      * @return the node that matched the given data with compareTo
      */
     protected Node<T> findNodeToRemove(T data, Node<T> node){
+        if(node == null) return null;
+        //if the node's data is bigger, search the left subtree is it exists
         if(node.data.compareTo(data) > 0) {
             if(node.leftChild == null) return null;
             return findNodeToRemove(data, node.leftChild);
         }
+        //if the node's data is smaller, search the right subtree if it exists
         if(node.data.compareTo(data) < 0){
             if(node.rightChild == null) return null;
             return findNodeToRemove(data, node.rightChild);
         }
+        //if node's data is not bigger or smaller, it must be equal, so return node's data
         return node;
     }
     /**
