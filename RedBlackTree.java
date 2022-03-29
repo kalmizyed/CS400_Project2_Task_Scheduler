@@ -12,9 +12,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Stack;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Red-Black Tree implementation with a Node inner class for representing
@@ -265,6 +262,7 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
      * @return the node that matched the given data with compareTo
      */
     protected Node<T> findNodeToRemove(T data, Node<T> node){
+        if(node==null) return null;
         if(node.data.compareTo(data) > 0) {
             if(node.leftChild == null) return null;
             return findNodeToRemove(data, node.leftChild);
@@ -594,194 +592,6 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
     public String toString() {
         return "level order: " + this.toLevelOrderString() +
                 "\nin order: " + this.toInOrderString();
-    }
-
-    //JUnit Tests
-    private static RedBlackTree<Integer> tree;
-
-    @BeforeEach
-    public void initTree(){
-        tree = new RedBlackTree<Integer>();
-    }
-     /**
-     * Tests the insert method in cases where no violations are created by adding the red node
-     */
-    @Test
-    public void testNoViolations(){
-        //Case 1: adding firt element (should change to black)
-        //////////////////////////////////////////////////////////////////////////
-        assertEquals(true, tree.insert(5));
-        assertEquals(1, tree.root.blackHeight);
-        
-        //Case 2: parent is root (black)
-        //////////////////////////////////////////////////////////////////////////
-        assertEquals(true, tree.insert(6));
-        assertEquals(1, tree.root.blackHeight);
-        assertEquals(0, tree.root.rightChild.blackHeight);
-
-        //Case 3: parent, grandparent, and uncle are black
-        //////////////////////////////////////////////////////////////////////////
-        
-        tree.root.leftChild = new Node<Integer>(4);
-        tree.root.leftChild.parent = tree.root;
-        tree.root.leftChild.blackHeight = 1;
-        tree.root.rightChild.blackHeight = 1;
-
-        assertEquals(true, tree.insert(3));
-        assertEquals("[ 5, 4, 6, 3 ]", tree.toLevelOrderString());
-        assertEquals(0, tree.root.leftChild.leftChild.blackHeight);
-        assertEquals(1, tree.root.blackHeight);
-        assertEquals(1, tree.root.leftChild.blackHeight);
-        assertEquals(1, tree.root.rightChild.blackHeight);
-
-    }
-    /**
-     * Tests the insert method in cases where there are vioolations, but they can be resolved without recursion
-     */
-    @Test
-    public void testNonRecursiveViolations(){
-        //Case 1: parent is red, uncle is black, child is a child of the same side as parent
-        //////////////////////////////////////////////////////////////////////////////////
-
-        //build up the tree without using insert, so the only insert is the case we're trying to test
-       tree.root = new Node<Integer>(5);
-       tree.root.blackHeight = 1;
-       tree.root.leftChild = new Node<Integer>(4); //with 0 black height
-       tree.root.leftChild.parent = tree.root;
-       tree.root.rightChild = new Node<Integer>(6);
-       tree.root.rightChild.parent = tree.root;
-       tree.root.rightChild.blackHeight = 1;
-       //this is an invalid RB tree on its own, but we imagine that it is a subtree of a larger tree
-       assertEquals(true, tree.insert(3));
-       assertEquals("[ 4, 3, 5, 6 ]", tree.toLevelOrderString());
-       assertEquals(1, tree.root.blackHeight);
-       assertEquals(0, tree.root.rightChild.blackHeight);
-       assertEquals(0, tree.root.leftChild.blackHeight);
-       assertEquals(1, tree.root.rightChild.rightChild.blackHeight);
-
-       //Case 2: parent is red, uncle is null, child is a child of the same side as parent
-       //////////////////////////////////////////////////////////////////////////////////
-       
-       //build up the tree without using insert, so the only insert is the case we're trying to test
-       tree.root = new Node<Integer>(5);
-       tree.root.blackHeight = 1;
-       tree.root.rightChild = new Node<Integer>(6);
-       tree.root.rightChild.parent = tree.root;
-        //should treat the null as black, meaning it should rotate and color swap 5 and 6
-       assertEquals(true, tree.insert(7));
-       assertEquals("[ 6, 5, 7 ]", tree.toLevelOrderString());
-       assertEquals(1, tree.root.blackHeight);
-       assertEquals(0, tree.root.rightChild.blackHeight);
-       assertEquals(0, tree.root.leftChild.blackHeight);
-    }
-   /**
-    * Tests the insert method in cases that are violations which require recurssion to resolve
-    */
-    @Test
-    public void testRecursiveViolations(){
-        //Case 1: parent is red, uncle is black, child is a child of the opposite side as the parent is
-       //////////////////////////////////////////////////////////////////////////////////
-       tree.root = new Node<Integer>(5);
-       tree.root.blackHeight = 1;
-       tree.root.leftChild = new Node<Integer>(3); //with 0 black height
-       tree.root.leftChild.parent = tree.root;
-       tree.root.rightChild = new Node<Integer>(6);
-       tree.root.rightChild.parent = tree.root;
-       tree.root.rightChild.blackHeight = 1;
-       //this is an invalid RB tree on its own, but we imagine that it is a subtree of a larger tree
-
-        //should rotate child and parent, then recurse at the parent (now the child), now in the
-        //same situation as the Non-Recursive Case 1
-       assertEquals(true, tree.insert(4));
-       assertEquals("[ 4, 3, 5, 6 ]", tree.toLevelOrderString());
-       assertEquals(1, tree.root.blackHeight);
-       assertEquals(0, tree.root.rightChild.blackHeight);
-       assertEquals(0, tree.root.leftChild.blackHeight);
-       assertEquals(1, tree.root.rightChild.rightChild.blackHeight);
-
-        //Case 2: parent is red, uncle is red (causing same violation again during recursion)
-       //////////////////////////////////////////////////////////////////////////////////
-       /*
-            Insert to the bottom left of this structure:
-                                1
-                            /       \
-                           0         0
-                          / \       / \
-                         1   1     1   1
-                        / \ / \   / \ / \   
-                        0 0 0 0   0 0 0 0
-                       /
-                    New Node(0)
-            
-            After fist enforcemnet of rules: should end up with a new violation like so:
-                                1
-                            /       \
-                           0         0
-                          / \       / \
-                         0   1     1   1
-                        / \ / \   / \ / \   
-                        1 1 0 0   0 0 0 0
-                       /
-                    New Node(0)
-
-            Then, after recursing at the New Node's grandparent, the tree should look like:
-                                0
-                            /       \
-                           1         1
-                          / \       / \
-                         0   1     1   1
-                        / \ / \   / \ / \   
-                        1 1 0 0   0 0 0 0
-                       /
-                    New Node(0)
-
-            Then the root gets flipped to black of course
-        */
-
-        //build up the tree without using insert
-        tree.root = new Node<Integer>(10); tree.root.blackHeight = 1;
-            //left
-            tree.root.leftChild = new Node<Integer>(6); tree.root.leftChild.parent = tree.root;
-                //left
-                tree.root.leftChild.leftChild = new Node<Integer>(4); tree.root.leftChild.leftChild.parent = tree.root.leftChild; tree.root.leftChild.leftChild.blackHeight = 1;
-                    //left
-                    tree.root.leftChild.leftChild.leftChild = new Node<Integer>(3); tree.root.leftChild.leftChild.leftChild.parent = tree.root.leftChild.leftChild;
-                    //right
-                    tree.root.leftChild.leftChild.rightChild = new Node<Integer>(5); tree.root.leftChild.leftChild.rightChild.parent = tree.root.leftChild.leftChild;
-                //right
-                tree.root.leftChild.rightChild = new Node<Integer>(8); tree.root.leftChild.rightChild.parent = tree.root.leftChild; tree.root.leftChild.rightChild.blackHeight = 1;
-                    //left
-                    tree.root.leftChild.rightChild.leftChild = new Node<Integer>(7); tree.root.leftChild.rightChild.leftChild.parent = tree.root.leftChild.rightChild;
-                    //right
-                    tree.root.leftChild.rightChild.rightChild = new Node<Integer>(9); tree.root.leftChild.rightChild.rightChild.parent = tree.root.leftChild.rightChild;
-            //right
-            tree.root.rightChild = new Node<Integer>(14); tree.root.rightChild.parent = tree.root;
-                //left
-                tree.root.rightChild.leftChild = new Node<Integer>(12); tree.root.rightChild.leftChild.parent = tree.root.leftChild; tree.root.rightChild.leftChild.blackHeight = 1;
-                    //left
-                    tree.root.rightChild.leftChild.leftChild = new Node<Integer>(11); tree.root.rightChild.leftChild.leftChild.parent = tree.root.rightChild.leftChild;
-                    //right
-                    tree.root.rightChild.leftChild.rightChild = new Node<Integer>(13); tree.root.rightChild.leftChild.rightChild.parent = tree.root.rightChild.leftChild;
-                //right
-                tree.root.rightChild.rightChild = new Node<Integer>(16); tree.root.rightChild.rightChild.parent = tree.root.leftChild; tree.root.rightChild.rightChild.blackHeight = 1;
-                    //left
-                    tree.root.rightChild.rightChild.leftChild = new Node<Integer>(15); tree.root.rightChild.rightChild.leftChild.parent = tree.root.rightChild.rightChild;
-                    //right
-                    tree.root.rightChild.rightChild.rightChild = new Node<Integer>(17); tree.root.rightChild.rightChild.rightChild.parent = tree.root.rightChild.rightChild;
-        
-        assertEquals(true, tree.insert(2));
-        //check structure
-        assertEquals("[ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ]", tree.toInOrderString());
-        assertEquals("[ 10, 6, 14, 4, 8, 12, 16, 3, 5, 7, 9, 11, 13, 15, 17, 2 ]", tree.toLevelOrderString());
-        //maked sure colors are right
-        assertEquals(1, tree.root.blackHeight);
-        assertEquals(1, tree.root.leftChild.blackHeight);
-        assertEquals(1, tree.root.rightChild.blackHeight);
-        assertEquals(0, tree.root.leftChild.leftChild.blackHeight);
-        assertEquals(1, tree.root.leftChild.leftChild.leftChild.blackHeight);
-        assertEquals(1, tree.root.leftChild.leftChild.rightChild.blackHeight);
-        assertEquals(0, tree.root.leftChild.leftChild.leftChild.leftChild.blackHeight);
-        
     }
 
 }
