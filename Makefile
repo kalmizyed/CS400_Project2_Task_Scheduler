@@ -5,7 +5,7 @@ runTests: BackendDeveloperTests.class junit5.jar
 BackendDeveloperTests.class: BackendDeveloperTests.java TaskSchedulerBackend.class
 	javac -cp .:junit5.jar BackendDeveloperTests.java
 
-TaskSchedulerBackend.class: TaskSchedulerBackend.java ITaskSchedulerBackend.class ITask.class TaskPlaceholder.class IExtendedSortedCollection.class ITreeFileHandler.class TreeFileHandlerPlaceholder.class
+TaskSchedulerBackend.class: TaskSchedulerBackend.java ITaskSchedulerBackend.class ITask.class TaskPlaceholder.class IExtendedSortedCollection.class ITreeFileHandler.class TreeFileHandlerPlaceholderBD.class
 	javac TaskSchedulerBackend.java
 ITaskSchedulerBackend.class: ITaskSchedulerBackend.java ITask.class
 	javac ITaskSchedulerBackend.java
