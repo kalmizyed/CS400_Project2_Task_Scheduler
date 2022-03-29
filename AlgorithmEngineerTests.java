@@ -153,6 +153,13 @@ public class AlgorithmEngineerTests {
         assertEquals(6, tree.root.rightChild.leftChild.data);
         assertEquals(8, tree.root.rightChild.leftChild.parent.data);
         assertEquals(0, tree.root.rightChild.leftChild.blackHeight);
+
+        //Case 3: Node is not in non-empty tree, should return null
+        tree = new RedBlackTree<Integer>();
+        tree.insert(5);
+        tree.insert(6);
+        tree.insert(7);
+        assertEquals(null, tree.remove(1));
     }
 
     /**
@@ -186,6 +193,15 @@ public class AlgorithmEngineerTests {
         assertEquals(4, tree.root.leftChild.data);
         assertEquals(6, tree.root.leftChild.parent.data);
         assertEquals(0, tree.root.leftChild.blackHeight);
+
+        //Case 3: tree has no elements, should return null
+        ////////////////////////////////////////////////////////////////////////////////////
+        tree = new RedBlackTree<Integer>();
+        assertEquals(null, tree.remove(5));
+
+        //Case 4: null passed into remove, should return null
+        ////////////////////////////////////////////////////////////////////////////////////
+        assertEquals(null, tree.remove(null));
     }
 
     /**
