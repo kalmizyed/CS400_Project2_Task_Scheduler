@@ -1,0 +1,122 @@
+Script started on Mon Mar 28 20:33:53 2022
+[1m[7m%[27m[1m[0m                                                                                                             [0m[27m[24m[Jjackblake@Jacks-MacBook-Pro Project2_DC_red % [K[?2004h[7mgit status[27m[10D[27mg[27mi[27mt[27m [27ms[27mt[27ma[27mt[27mu[27ms[?2004l
+On branch AlgorithmEngineer
+Your branch is ahead of 'origin/AlgorithmEngineer' by 3 commits.
+  (use "git push" to publish your local commits)
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	[31mlog[m
+
+nothing added to commit but untracked files present (use "git add" to track)
+[1m[7m%[27m[1m[0m                                                                                                             [0m[27m[24m[Jjackblake@Jacks-MacBook-Pro Project2_DC_red % [K[?2004h[7mgit log -1[27m[10D[27mg[27mi[27mt[27m [27ml[27mo[27mg[27m [27m-[27m1[?2004l
+[?1h=[33mcommit ef98f0b770a1674df634940c3c05f31f1ff617d1[m[33m ([m[1;36mHEAD -> [m[1;32mAlgorithmEngineer[m[33m)[m[m
+Author: Jack Blake <jhblake2@wisc.edu>[m
+Date:   Mon Mar 28 20:33:41 2022 -0500[m
+[m
+    deleted old log file[m
+[K[?1l>[1m[7m%[27m[1m[0m                                                                                                             [0m[27m[24m[Jjackblake@Jacks-MacBook-Pro Project2_DC_red % [K[?2004h[7mmake clean[27m[10D[27mm[27ma[27mk[27me[27m [27mc[27ml[27me[27ma[27mn[?2004l
+rm *.class
+[1m[7m%[27m[1m[0m                                                                                                             [0m[27m[24m[Jjackblake@Jacks-MacBook-Pro Project2_DC_red % [K[?2004h[7mls[27m[27ml[27ms[?2004l
+AlgorithmEngineerTests.java	ITaskSchedulerFrontend.java	SortedCollectionInterface.java
+IExtendedSortedCollection.java	ITreeFileHandler.java		junit5.jar
+ITask.java			Makefile			log
+ITaskSchedulerBackend.java	RedBlackTree.java
+[1m[7m%[27m[1m[0m                                                                                                             [0m[27m[24m[Jjackblake@Jacks-MacBook-Pro Project2_DC_red % [K[?2004h[7mmake runTests[27m[13D[27mm[27ma[27mk[27me[27m [27mr[27mu[27mn[27mT[27me[27ms[27mt[27ms[?2004l
+javac -cp .:junit5.jar RedBlackTree.java
+javac -cp .:junit5.jar AlgorithmEngineerTests.java
+java -jar junit5.jar -cp . --scan-classpath -n AlgorithmEngineerTests
+Removing 8...
+Case 0
+Removing 6...
+Case 1
+Removing 7...
+Case 2
+Case 0
+Removing 5...
+Case 0
+Removing 6...
+Case 0
+Removing 5...
+Case 2
+Case 0
+Removing 7...
+Case 0
+db: 7:2
+parent: 8:1
+sibling: 10:1
+DoubleBlack Case 0
+Removing 7...
+Case 0
+db: 7:2
+parent: 8:1
+sibling: 10:1
+DoubleBlack Case 0
+Removing 7...
+Case 0
+db: 7:2
+parent: 8:1
+sibling: 10:1
+DoubleBlack Case 0
+Removing 7...
+Case 0
+db: 7:2
+parent: 8:1
+sibling: 10:1
+DoubleBlack Case 1
+Removing 7...
+Case 0
+db: 7:2
+parent: 8:0
+sibling: 10:1
+DoubleBlack Case 1
+Removing 6...
+Case 0
+db: 6:2
+parent: 7:1
+sibling: 9:1
+DoubleBlack Case 1
+db: 7:2
+parent: 5:1
+sibling: 4:1
+DoubleBlack Case 0
+Removing 4...
+Case 0
+db: 4:2
+parent: 5:1
+sibling: 7:0
+DoubleBlack Case 2
+db: 4:2
+parent: 5:0
+sibling: 6:1
+DoubleBlack Case 1
+
+Thanks for using JUnit! Support its development at https://junit.org/sponsoring
+
+[36m╷[0m
+[36m├─[0m [36mJUnit Jupiter[0m [32m✔[0m
+[36m│  └─[0m [36mAlgorithmEngineerTests[0m [32m✔[0m
+[36m│     ├─[0m [34mtest1()[0m [32m✔[0m
+[36m│     ├─[0m [34mtest2()[0m [32m✔[0m
+[36m│     ├─[0m [34mtest3()[0m [32m✔[0m
+[36m│     ├─[0m [34mtest4()[0m [32m✔[0m
+[36m│     └─[0m [34mtest5()[0m [32m✔[0m
+[36m└─[0m [36mJUnit Vintage[0m [32m✔[0m
+
+Test run finished after 193 ms
+[         3 containers found      ]
+[         0 containers skipped    ]
+[         3 containers started    ]
+[         0 containers aborted    ]
+[         3 containers successful ]
+[         0 containers failed     ]
+[         5 tests found           ]
+[         0 tests skipped         ]
+[         5 tests started         ]
+[         0 tests aborted         ]
+[         5 tests successful      ]
+[         0 tests failed          ]
+
+[1m[7m%[27m[1m[0m                                                                                                             [0m[27m[24m[Jjackblake@Jacks-MacBook-Pro Project2_DC_red % [K[?2004h[7mexit[27m[27me[27mx[27mi[27mt[?2004l
+
+Script done on Mon Mar 28 20:34:32 2022
