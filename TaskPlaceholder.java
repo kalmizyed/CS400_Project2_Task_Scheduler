@@ -21,5 +21,10 @@ public class TaskPlaceholder implements ITask{
     public int compareTo(ITask other) {
         return date.compareTo(other.getDate());
     }
+
+    @Override
+    public String toString(){
+        return name+" "+date.toString();
+    }
     
 }
