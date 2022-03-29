@@ -1,19 +1,9 @@
-runTests: AlgorithmEngineerTests.class junit5.jar
-	java -jar junit5.jar -cp . --scan-classpath -n AlgorithmEngineerTests
-
-AlgorithmEngineerTests.class: AlgorithmEngineerTests.java RedBlackTree.class
-	javac -cp .:junit5.jar AlgorithmEngineerTests.java
-
-RedBlackTree.class: RedBlackTree.java
-	javac -cp .:junit5.jar RedBlackTree.java
-
 clean:
 	rm *.class
-
-runBackendDeveloperTests: BackendDeveloperTests.class
-	java BackendDeveloperTests
+runTests: BackendDeveloperTests.class junit5.jar
+	java -jar junit5.jar -cp . --scan-classpath -n BackendDeveloperTests
 BackendDeveloperTests.class: BackendDeveloperTests.java TaskSchedulerBackend.class
-	javac BackendDeveloperTests.java
+	javac -cp .:junit5.jar BackendDeveloperTests.java
 
 TaskSchedulerBackend.class: TaskSchedulerBackend.java ITaskSchedulerBackend.class ITask.class TaskPlaceholder.class IExtendedSortedCollection.class ITreeFileHandler.class TreeFileHandlerPlaceholder.class
 	javac TaskSchedulerBackend.java
@@ -29,5 +19,5 @@ SortedCollectionInterface.class: SortedCollectionInterface.java
 	javac SortedCollectionInterface.java
 ITreeFileHandler.class: ITreeFileHandler.java ITask.class IExtendedSortedCollection.class 
 	javac ITreeFileHandler.java
-TreeFileHandlerPlaceholder.class: TreeFileHandlerPlaceholder.java ITreeFileHandler.class ITask.class
+TreeFileHandlerPlaceholderBD.class: TreeFileHandlerPlaceholder.java ITreeFileHandler.class ITask.class
 	javac TreeFileHandlerPlaceholder.java
