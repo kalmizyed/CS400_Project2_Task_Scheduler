@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.text.DateFormat;
@@ -8,16 +9,23 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 // --== CS400 Project Two File Header ==--
 // Name: Joseph Cai
 // CSL Username: josephc
 // Email: jbcai@wisc.edu
 // Lecture #: 004 @4:00pm
-// Notes to Grader: 
+// Notes to Grader: getOverdue is dependent on the current date and time, so its behavior is not consistent
 public class TaskSchedulerBackend implements ITaskSchedulerBackend{
-    private IExtendedSortedCollection<ITask> tree;
-    private DateFormat dateFormat = new SimpleDateFormat("MM/DD/YYYY-HH:mm");
+    protected IExtendedSortedCollection<ITask> tree;
+    private DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy-HH:mm");
+    /**
+     * Constructor
+     */
+    public TaskSchedulerBackend(){
+        tree = new RedBlackTree<ITask>();
+    }
     /**
      * Creates a new Task and adds it to the RB Tree.
      * @param dateString String representing the date and time of the task
@@ -88,18 +96,19 @@ public class TaskSchedulerBackend implements ITaskSchedulerBackend{
     public void loadTree(){
         Path workingDirectory = FileSystems.getDefault().getPath("tasks.xml");
         File XMLFile = workingDirectory.toFile();
-        ITreeFileHandler fileHandler= new TreeFileHandlerPlaceholder();
+        ITreeFileHandler fileHandler= new TreeFileHandlerPlaceholderBD();
         tree = fileHandler.getTreeFromFile(XMLFile);
     }
 
     /**
      * Saves the current state of the tree to an XML file.
      * Makes use of the ITreeFileHandler class.
+     * @throws FileNotFoundException
      */
     public void saveTree(){
         Path workingDirectory = FileSystems.getDefault().getPath("tasks.xml");
         File XMLFile = workingDirectory.toFile();
-        ITreeFileHandler fileHandler= new TreeFileHandlerPlaceholder();
-        fileHandler.writeTreeToFile(XMLFile, tree);
+        ITreeFileHandler fileHandler= new TreeFileHandlerPlaceholderBD();
+        if(!fileHandler.writeTreeToFile(XMLFile, tree)) throw new IllegalArgumentException();
     }
 }
