@@ -1,0 +1,25 @@
+<tasks>
+    <task>
+        <name>
+            Test that this task works
+        </name>
+        <date>
+            1648502886275
+        </date>
+    </task>
+    <task>
+        <name>
+            Test task 2
+        </name>
+        <date>
+            1648502986275
+        </date>
+    </task>
+    <task>
+        <name>
+            Testing the third
+        </name>
+        <date>
+            1648503886275
+        </date>
+    </task>

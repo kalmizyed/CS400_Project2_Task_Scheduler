@@ -24,7 +24,7 @@ public class TreeFileHandler implements ITreeFileHandler {
      */
     @Override
     public IExtendedSortedCollection<ITask> getTreeFromFile(File f) throws FileNotFoundException, DataFormatException {
-        IExtendedSortedCollection<ITask> tree = new RedBlackTreePlaceholderDW<ITask>();
+        IExtendedSortedCollection<ITask> tree = new RedBlackTreePlaceholderDW<ITask>(); // TODO replace placeholder when integrating
         
         Scanner reader = new Scanner(f);
 
@@ -52,8 +52,13 @@ public class TreeFileHandler implements ITreeFileHandler {
                     // Otherwise the XML is invalid
                     else throw new DataFormatException("Invalid XML: tag mismatch");
 
-                    // If this is a task tag being closed, add a new task with previously read name/date data
+                    // If this is a task tag being closed, add a new
+                    // task with previously read name/date data
                     if(tagName.equals("task")) {
+                        if(currentName == null || currentDate == null) {
+                            throw new DataFormatException("Invalid XML: Empty fields");
+                        }
+
                         Task task = new Task(currentName, currentDate);
                         tree.insert(task);
 
@@ -72,6 +77,11 @@ public class TreeFileHandler implements ITreeFileHandler {
             
             else { // Content
 
+                // Make sure line isn't an invalid tag
+                if (currentLine.charAt(currentLine.length() - 1) == '>') {
+                    throw new DataFormatException("Invalid XML: bracket not opened");
+                }
+
                 // Save name/date data until task tag is closed
 
                 if(openElements.peek().equals("name")) {
@@ -79,11 +89,15 @@ public class TreeFileHandler implements ITreeFileHandler {
                 }
 
                 else if(openElements.peek().equals("date")) {
-                    int currentDateMillis = Integer.parseInt(currentLine);
+                    long currentDateMillis = Long.parseLong(currentLine);
                     currentDate = new Date(currentDateMillis);
                 }
             }
         }
+        
+        // Make sure all tags have been closed
+        if (openElements.size() > 0) throw new 
+            DataFormatException("Invalid XML: not all tags closed");
 
         reader.close();
         
@@ -103,6 +117,7 @@ public class TreeFileHandler implements ITreeFileHandler {
         try {
             output = new PrintWriter(f);
         } catch (FileNotFoundException e) {
+            e.printStackTrace(); // TODO remove
             return false;
         }
 
@@ -116,7 +131,7 @@ public class TreeFileHandler implements ITreeFileHandler {
             output.println("            " + task.getName());
             output.println("        </name>");
             output.println("        <date>");
-            output.println("            " + task.getDate());
+            output.println("            " + task.getDate().getTime());
             output.println("        </date>");
             output.println("    </task>");
         }

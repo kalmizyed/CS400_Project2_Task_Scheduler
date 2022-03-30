@@ -1,0 +1,26 @@
+<items>
+    <item>
+        <title>
+            Test that this item works
+        </title>
+        <time>
+            1648502886275
+        </time>
+    </item>
+    <item>
+        <title>
+            Test item 2
+        </title>
+        <time>
+            1648502986275
+        </time>
+    </item>
+    <item>
+        <title>
+            Testing the third
+        </title>
+        <time>
+            1648503886275
+        </time>
+    </item>
+</items>
