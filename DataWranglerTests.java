@@ -85,7 +85,7 @@ public class DataWranglerTests {
             tree.insert(task);
         }
 
-        File outputFile = new File("bin\\data\\testOutputValid.xml");
+        File outputFile = new File("testOutputValid.xml");
 
         // Call writeTreeToFile on a new TreeFileHandler
         boolean successfulWrite = new TreeFileHandler().writeTreeToFile(outputFile, tree);
@@ -102,7 +102,7 @@ public class DataWranglerTests {
 
         // Add nothing to the tree
 
-        File outputFile = new File("bin\\data\\testOutputEmptyTree.xml");
+        File outputFile = new File("testOutputEmptyTree.xml");
 
         // Call writeTreeToFile on a new TreeFileHandler
         boolean successfulWrite = new TreeFileHandler().writeTreeToFile(outputFile, tree);
@@ -115,7 +115,7 @@ public class DataWranglerTests {
      */
     @Test
     public void testReadGoodXML() {
-        File inputFile = new File("bin\\data\\testInputValid.xml");
+        File inputFile = new File("testInputValid.xml");
         IExtendedSortedCollection<ITask> tree;
 
         // Read tree, fail immediately if exception is thrown
@@ -138,7 +138,7 @@ public class DataWranglerTests {
      */
     @Test
     public void testReadEmptyTasks() {
-        File inputFile = new File("bin\\data\\testInputInvalidEmptyTasks.xml");
+        File inputFile = new File("testInputInvalidEmptyTasks.xml");
         IExtendedSortedCollection<ITask> tree;
 
         // Read tree, fail immediately if exception is thrown
@@ -159,7 +159,7 @@ public class DataWranglerTests {
      */
     @Test
     public void testReadInvalidTagNames() {
-        File inputFile = new File("bin\\data\\testInputInvalidTagNames.xml");
+        File inputFile = new File("testInputInvalidTagNames.xml");
         IExtendedSortedCollection<ITask> tree;
 
         // Read tree, fail immediately if exception is thrown
@@ -179,7 +179,7 @@ public class DataWranglerTests {
      */
     @Test
     public void testReadTagsOpen() {
-        File inputFile = new File("bin\\data\\testInputInvalidTagsOpen.xml");
+        File inputFile = new File("testInputInvalidTagsOpen.xml");
         IExtendedSortedCollection<ITask> tree;
 
         // Read tree, fail immediately if exception is thrown
@@ -199,7 +199,7 @@ public class DataWranglerTests {
      */
     @Test
     public void testReadInvalidTagSyntax() {
-        File inputFile = new File("bin\\data\\testInputInvalidTagSyntax.xml");
+        File inputFile = new File("testInputInvalidTagSyntax.xml");
         IExtendedSortedCollection<ITask> tree;
 
         // Read tree, fail immediately if exception is thrown
@@ -220,7 +220,7 @@ public class DataWranglerTests {
     @Test
     public void testOutputAndInput() {
         RedBlackTreePlaceholderDW<ITask> tree = new RedBlackTreePlaceholderDW<ITask>();
-        File file = new File("bin\\data\\testInputOutput.xml");
+        File file = new File("testInputOutput.xml");
 
         // Add 10 elements to the tree
         for(int i = 0; i < 10; i++) {
