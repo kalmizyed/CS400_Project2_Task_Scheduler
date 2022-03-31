@@ -8,7 +8,7 @@ run: TaskSchedulerApp.class
 clean:
 	rm *.class
 
-runTests: runDataWranglerTests
+runTests: runDataWranglerTests runAlgorithmEngineerTests
 
 TaskSchedulerApp.class: TaskSchedulerApp.java
 	javac TaskSchedulerApp.java
@@ -18,7 +18,7 @@ TaskSchedulerApp.class: TaskSchedulerApp.java
 #################
 
 runDataWranglerTests: DataWranglerTests.class
-	java -jar junit5.jar --class-path . --scan-classpath
+	java -jar junit5.jar --scan-classpath -n DataWranglerEngineerTests
 
 DataWranglerTests.class: DataWranglerTests.java 
 	javac -cp .:junit5.jar DataWranglerTests.java -Xlint
@@ -30,6 +30,15 @@ DataWranglerTests.class: DataWranglerTests.java
 ######################
 # ALGORITHM ENGINEER #
 ######################
+
+runAlgorithmEngineerTests: AlgorithmEngineerTests.class junit5.jar
+	java -jar junit5.jar -cp . --scan-classpath -n AlgorithmEngineerTests
+
+AlgorithmEngineerTests.class: AlgorithmEngineerTests.java RedBlackTree.class
+	javac -cp .:junit5.jar AlgorithmEngineerTests.java
+
+RedBlackTree.class: RedBlackTree.java
+	javac -cp .:junit5.jar RedBlackTree.java
 
 ######################
 # FRONTEND DEVELOPER #
