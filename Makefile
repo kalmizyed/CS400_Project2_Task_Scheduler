@@ -18,7 +18,7 @@ TaskSchedulerApp.class: TaskSchedulerApp.java
 #################
 
 runDataWranglerTests: DataWranglerTests.class
-	java -jar junit5.jar --scan-classpath -n DataWranglerEngineerTests
+	java -jar junit5.jar -cp . --scan-classpath -n DataWranglerTests
 
 DataWranglerTests.class: DataWranglerTests.java 
 	javac -cp .:junit5.jar DataWranglerTests.java -Xlint
