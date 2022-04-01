@@ -35,6 +35,11 @@ public interface ITaskSchedulerFrontend {
     void addTask();
 
     /**
+     * Allows the user to enter dates then displays all the tasks between the given dates
+     */
+    void displayTasksBetweenDates();
+
+    /**
      * Displays all tasks and allows the user to
      * enter the number of the one to complete,
      * then removes it.
