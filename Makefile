@@ -8,7 +8,7 @@ run: TaskSchedulerApp.class
 clean:
 	rm *.class
 
-runTests: runDataWranglerTests runAlgorithmEngineerTests
+runTests: runDataWranglerTests runAlgorithmEngineerTests runFrontendDeveloperTests
 
 TaskSchedulerApp.class: TaskSchedulerApp.java
 	javac TaskSchedulerApp.java
@@ -43,3 +43,19 @@ RedBlackTree.class: RedBlackTree.java
 ######################
 # FRONTEND DEVELOPER #
 ######################
+
+runFrontendDeveloperTests: FrontendDeveloperTests.class
+	java -jar junit5.jar -cp . --scan-classpath -n FrontendDeveloperTests
+
+FrontendDeveloperTests.class: TextUITester.class TaskScheduleUI.class
+	javac -cp .:junit5.jar FrontendDeveloperTests.java
+
+TextUITester.class: TextUITester.java
+	javac TextUITester.java
+
+TaskScheduleUI.class: TaskScheduleUI.java ITaskSchedulerFrontend.class
+	javac TaskScheduleUI.java
+
+ITaskSchedulerFrontend.class: ITaskSchedulerFrontend.java
+	javac ITaskSchedulerFrontend.java
+
