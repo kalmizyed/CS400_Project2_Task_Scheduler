@@ -5,8 +5,10 @@
 // Lecture #: 004 @4:00pm
 // Notes to Grader: 
 
+import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 public interface ITaskSchedulerBackend {
     /**
@@ -47,8 +49,10 @@ public interface ITaskSchedulerBackend {
     /**
      * Loads the saved state of the tree from an XML file.
      * Makes use of the ITreeFileHandler class.
+     * @throws DataFormatException
+     * @throws FileNotFoundException
      */
-    void loadTree();
+    void loadTree() throws FileNotFoundException, DataFormatException;
 
     /**
      * Saves the current state of the tree to an XML file.

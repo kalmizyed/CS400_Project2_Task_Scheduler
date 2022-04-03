@@ -7,7 +7,7 @@ run: TaskSchedulerApp.class
 clean:
 	rm *.class
 
-runTests: runDataWranglerTests runAlgorithmEngineerTests runFrontendDeveloperTests
+runTests: runDataWranglerTests runAlgorithmEngineerTests runFrontendDeveloperTests runBackendDeveloperTests
 
 TaskSchedulerApp.class: TaskSchedulerApp.java
 	javac TaskSchedulerApp.java
@@ -21,10 +21,6 @@ runDataWranglerTests: DataWranglerTests.class
 
 DataWranglerTests.class: DataWranglerTests.java 
 	javac -cp .:junit5.jar DataWranglerTests.java -Xlint
-
-#####################
-# BACKEND DEVELOPER #
-#####################
 
 ######################
 # ALGORITHM ENGINEER #
@@ -57,3 +53,31 @@ TaskScheduleUI.class: TaskScheduleUI.java ITaskSchedulerFrontend.class
 
 ITaskSchedulerFrontend.class: ITaskSchedulerFrontend.java
 	javac ITaskSchedulerFrontend.java
+#####################
+# BACKEND DEVELOPER #
+#####################
+runBackendDeveloperTests: BackendDeveloperTests.class junit5.jar	
+	java -jar junit5.jar -cp . --scan-classpath -n BackendDeveloperTests
+BackendDeveloperTests.class: BackendDeveloperTests.java TaskSchedulerBackend.class
+	javac -cp .:junit5.jar BackendDeveloperTests.java
+
+TaskSchedulerBackend.class: TaskSchedulerBackend.java ITaskSchedulerBackend.class ITask.class Task.class IExtendedSortedCollection.class ITreeFileHandler.class TreeFileHandler.class
+	javac TaskSchedulerBackend.java
+ITaskSchedulerBackend.class: ITaskSchedulerBackend.java ITask.class
+	javac ITaskSchedulerBackend.java
+ITask.class: ITask.java
+	javac ITask.java
+Task.class: Task.java ITask.class
+	javac Task.java
+TreeFileHandler.class: TreeFileHandler.java ITreeFileHandler.class ITask.class Task.class 
+	javac TreeFileHandler.java
+TaskPlaceholder.class: TaskPlaceholder.java ITask.class
+	javac TaskPlaceholder.java
+IExtendedSortedCollection.class: IExtendedSortedCollection.java SortedCollectionInterface.class
+	javac IExtendedSortedCollection.java
+SortedCollectionInterface.class: SortedCollectionInterface.java
+	javac SortedCollectionInterface.java
+ITreeFileHandler.class: ITreeFileHandler.java ITask.class IExtendedSortedCollection.class 
+	javac ITreeFileHandler.java
+TreeFileHandlerPlaceholderBD.class: TreeFileHandlerPlaceholderBD.java ITreeFileHandler.class ITask.class
+	javac TreeFileHandlerPlaceholderBD.java
