@@ -4,7 +4,6 @@
 
 run: TaskSchedulerApp.class
 	java TaskSchedulerApp
-
 clean:
 	rm *.class
 
@@ -58,4 +57,3 @@ TaskScheduleUI.class: TaskScheduleUI.java ITaskSchedulerFrontend.class
 
 ITaskSchedulerFrontend.class: ITaskSchedulerFrontend.java
 	javac ITaskSchedulerFrontend.java
-

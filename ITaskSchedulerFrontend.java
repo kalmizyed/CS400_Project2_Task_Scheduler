@@ -46,3 +46,4 @@ public interface ITaskSchedulerFrontend {
      */
     void completeTask();
 }
+

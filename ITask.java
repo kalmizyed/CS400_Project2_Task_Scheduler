@@ -33,3 +33,7 @@ public interface ITask extends Comparable<ITask> {
      */
     String toString();
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> FrontendDeveloper
