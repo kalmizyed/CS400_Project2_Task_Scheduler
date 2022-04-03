@@ -13,6 +13,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.Date;
+import java.io.File;
+import java.io.FileWriter;
 
 public class AlgorithmEngineerTests {
     private static RedBlackTree<Integer> tree;
@@ -547,4 +551,59 @@ public class AlgorithmEngineerTests {
         assertEquals(1, tree.root.rightChild.blackHeight);
         assertEquals(0, tree.root.leftChild.rightChild.blackHeight);
     }
+
+    /**
+     * Tests that the treeFileHandler's writeTreeToFile method creates the XML in level order for efficient inserts when reading it
+     */
+    @Test
+    public void test6(){
+       RedBlackTree<ITask> taskTree = new RedBlackTree<ITask>();
+       Date rootDate = new Date(System.currentTimeMillis());
+       ITask root = new Task("root", rootDate);
+       ITask left = new Task("left", new Date(rootDate.getTime() - 1));
+       ITask right = new Task("right", new Date(rootDate.getTime() + 2));
+       ITask rightLeft = new Task("rl", new Date(rootDate.getTime() + 1)); //right child's left child
+
+       taskTree.insert(root);
+       taskTree.insert(left);
+       taskTree.insert(right);
+       taskTree.insert(rightLeft);
+
+       //Make sure tree is correct before writing to file
+       assertEquals(root, taskTree.root.data);
+       assertEquals(left, taskTree.root.leftChild.data);
+       assertEquals(right, taskTree.root.rightChild.data);
+       assertEquals(rightLeft, taskTree.root.rightChild.leftChild.data);
+
+       File f = new File("testLevelOrder.xml");
+       TreeFileHandler tfh = new TreeFileHandler();
+       assertEquals(true, tfh.writeTreeToFile(f, taskTree));
+
+       String contents = "";
+       Scanner scan = new Scanner("testLevelOrder.xml");
+       while(scan.hasNextLine()){
+              contents += scan.nextLine();
+       }
+       //make sure items are in level order
+       assertEquals(true, contents.indexOf("root") < contents.indexOf("left"));
+       assertEquals(true, contents.indexOf("left") < contents.indexOf("right"));
+       assertEquals(true, contents.indexOf("right") < contents.indexOf("rl"));
+    }
+
+
+    /**
+     * Tests to make sure Task Object's compareTo method compares by Date first, then by name (not covered in DataWranglerTests)
+     */
+    @Test
+    public void test7(){
+       Date d1 = new Date(System.currentTimeMillis());
+       //earlier date, but name is later in alphabet
+       Task t1 = new Task("z", d1);
+       Date d2 = new Date(d1.getTime() + 1);
+       //later Date, but name is earlier in alphabet
+       Task t2 = new Task("a", d2);
+       //t2 should be "bigger" because its Date is later
+       assertEquals(true, t2.compareTo(t1) > 0);
+       assertEquals(true, t1.compareTo(t2) < 0);
+    } 
 }
