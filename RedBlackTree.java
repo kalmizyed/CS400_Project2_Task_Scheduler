@@ -422,6 +422,30 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
     }
 
     /**
+     * Gives an iterator that is in level order instead of in order
+     * @return Itorator that has all the elements in the tree in level order
+     */
+    public Iterator<T> levelOrderIterator() {
+        LinkedList<Node<T>> q = new LinkedList<>();
+        q.add(this.root);
+        LinkedList<T> levelOrderList = new LinkedList<T>();
+        while(!q.isEmpty()){
+            Node<T> next = q.removeFirst();
+            if(next.leftChild != null) q.add(next.leftChild);
+            if(next.rightChild != null) q.add(next.rightChild);
+            levelOrderList.add(next.data);
+        }
+        if(levelOrderList.getFirst() instanceof Task){
+            System.out.print("[");
+            for(T data : levelOrderList){
+                System.out.print(" " + ((Task)data).getName() + " ");
+            }
+            System.out.println("]");
+        }
+        return levelOrderList.iterator();
+    }
+
+    /**
      * Get the size of the tree (its number of nodes).
      * @return the number of nodes in the tree
      */
@@ -593,6 +617,7 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
         }
         return output + " ]";
     }
+
 
     @Override
     public String toString() {

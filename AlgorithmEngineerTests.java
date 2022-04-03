@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Date;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 
 public class AlgorithmEngineerTests {
@@ -580,10 +581,15 @@ public class AlgorithmEngineerTests {
        assertEquals(true, tfh.writeTreeToFile(f, taskTree));
 
        String contents = "";
-       Scanner scan = new Scanner("testLevelOrder.xml");
-       while(scan.hasNextLine()){
-              contents += scan.nextLine();
+       try{
+              Scanner scan = new Scanner(f);
+              while(scan.hasNextLine()){
+                     contents += scan.nextLine();
+              }
+       } catch (FileNotFoundException e){
+              
        }
+       
        //make sure items are in level order
        assertEquals(true, contents.indexOf("root") < contents.indexOf("left"));
        assertEquals(true, contents.indexOf("left") < contents.indexOf("right"));
