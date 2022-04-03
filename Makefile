@@ -61,12 +61,16 @@ runBackendDeveloperTests: BackendDeveloperTests.class junit5.jar
 BackendDeveloperTests.class: BackendDeveloperTests.java TaskSchedulerBackend.class
 	javac -cp .:junit5.jar BackendDeveloperTests.java
 
-TaskSchedulerBackend.class: TaskSchedulerBackend.java ITaskSchedulerBackend.class ITask.class TaskPlaceholder.class IExtendedSortedCollection.class ITreeFileHandler.class TreeFileHandlerPlaceholderBD.class
+TaskSchedulerBackend.class: TaskSchedulerBackend.java ITaskSchedulerBackend.class ITask.class Task.class IExtendedSortedCollection.class ITreeFileHandler.class TreeFileHandler.class
 	javac TaskSchedulerBackend.java
 ITaskSchedulerBackend.class: ITaskSchedulerBackend.java ITask.class
 	javac ITaskSchedulerBackend.java
 ITask.class: ITask.java
 	javac ITask.java
+Task.class: Task.java ITask.class
+	javac Task.java
+TreeFileHandler.class: TreeFileHandler.java ITreeFileHandler.class ITask.class Task.class 
+	javac TreeFileHandler.java
 TaskPlaceholder.class: TaskPlaceholder.java ITask.class
 	javac TaskPlaceholder.java
 IExtendedSortedCollection.class: IExtendedSortedCollection.java SortedCollectionInterface.class

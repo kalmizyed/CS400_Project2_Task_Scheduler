@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.zip.DataFormatException;
 
 // --== CS400 Project Two File Header ==--
 // Name: Joseph Cai
@@ -34,7 +35,7 @@ public class TaskSchedulerBackend implements ITaskSchedulerBackend{
      */
     public boolean addTask(String dateString, String name){
         try{
-            ITask task = new TaskPlaceholder(name, dateFormat.parse(dateString));
+            ITask task = new Task(name, dateFormat.parse(dateString));
             tree.insert(task);
         }
         catch(ParseException e){
@@ -68,7 +69,7 @@ public class TaskSchedulerBackend implements ITaskSchedulerBackend{
      */
     public List<ITask> getOverdue(){
         Date currentDate = Calendar.getInstance().getTime();
-        ITask tempTask = new TaskPlaceholder("", currentDate);
+        ITask tempTask = new Task("", currentDate);
         ITask firstTask = tree.iterator().next();
         return tree.getItemsBetween(firstTask, tempTask);
     }
@@ -84,19 +85,21 @@ public class TaskSchedulerBackend implements ITaskSchedulerBackend{
     public List<ITask> getBetweenDates(String minDateString, String maxDateString) throws ParseException{
         Date minDate = dateFormat.parse(minDateString);
         Date maxDate = dateFormat.parse(maxDateString);
-        ITask minTask = new TaskPlaceholder("", minDate);
-        ITask maxTask = new TaskPlaceholder("", maxDate);
+        ITask minTask = new Task("", minDate);
+        ITask maxTask = new Task("", maxDate);
         return tree.getItemsBetween(minTask, maxTask);
     }
 
     /**
      * Loads the saved state of the tree from an XML file.
      * Makes use of the ITreeFileHandler class.
+     * @throws DataFormatException
+     * @throws FileNotFoundException
      */
-    public void loadTree(){
+    public void loadTree() throws FileNotFoundException, DataFormatException{
         Path workingDirectory = FileSystems.getDefault().getPath("tasks.xml");
         File XMLFile = workingDirectory.toFile();
-        ITreeFileHandler fileHandler= new TreeFileHandlerPlaceholderBD();
+        ITreeFileHandler fileHandler= new TreeFileHandler();
         tree = fileHandler.getTreeFromFile(XMLFile);
     }
 
@@ -108,7 +111,7 @@ public class TaskSchedulerBackend implements ITaskSchedulerBackend{
     public void saveTree(){
         Path workingDirectory = FileSystems.getDefault().getPath("tasks.xml");
         File XMLFile = workingDirectory.toFile();
-        ITreeFileHandler fileHandler= new TreeFileHandlerPlaceholderBD();
+        ITreeFileHandler fileHandler= new TreeFileHandler();
         if(!fileHandler.writeTreeToFile(XMLFile, tree)) throw new IllegalArgumentException();
     }
 }
