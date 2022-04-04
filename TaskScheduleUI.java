@@ -119,7 +119,7 @@ public class TaskScheduleUI implements ITaskSchedulerFrontend{
       taskScheduler.addTask(newDate, newName);
       
       System.out.println();
-      System.out.println("Task Added! " + newName + "by " + time + " " + date);
+      System.out.println("Task Added! " + newName + " by " + time + " " + date);
       
       showCommandMenu();
     }
@@ -182,9 +182,9 @@ public class TaskScheduleUI implements ITaskSchedulerFrontend{
 
     @Override
     public void displayTasksBetweenDates() {
-      System.out.println("Earliest Date MM/DD/YYYY: ");
+      System.out.println("Earliest Date MM/DD/YYYY-HH:MM: ");
       String min = scanner.nextLine();
-      System.out.println("Latest Date MM/DD/YYYY: ");
+      System.out.println("Latest Date MM/DD/YYYY-HH:MM: ");
       String max = scanner.nextLine();
       
       try {

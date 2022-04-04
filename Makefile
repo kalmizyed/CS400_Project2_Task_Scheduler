@@ -2,7 +2,7 @@
 # FULL APP #
 ############
 
-run: TaskSchedulerApp.class
+run: TaskSchedulerApp.class TaskSchedulerBackend.class
 	java TaskSchedulerApp
 clean:
 	rm *.class
@@ -48,7 +48,7 @@ FrontendDeveloperTests.class: TextUITester.class TaskScheduleUI.class
 TextUITester.class: TextUITester.java
 	javac TextUITester.java
 
-TaskScheduleUI.class: TaskScheduleUI.java ITaskSchedulerFrontend.class
+TaskScheduleUI.class: TaskScheduleUI.java ITaskSchedulerFrontend.class ITaskSchedulerBackend.class
 	javac TaskScheduleUI.java
 
 ITaskSchedulerFrontend.class: ITaskSchedulerFrontend.java

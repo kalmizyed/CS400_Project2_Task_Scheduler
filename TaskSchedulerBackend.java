@@ -36,6 +36,7 @@ public class TaskSchedulerBackend implements ITaskSchedulerBackend{
     public boolean addTask(String dateString, String name){
         try{
             ITask task = new Task(name, dateFormat.parse(dateString));
+            System.out.println(task.getDate());
             tree.insert(task);
         }
         catch(ParseException e){
