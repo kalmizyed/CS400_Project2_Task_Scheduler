@@ -11,7 +11,3 @@ public interface SortedCollectionInterface<T extends Comparable<T>> extends Iter
     public boolean isEmpty();
 
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> FrontendDeveloper
