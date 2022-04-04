@@ -1,3 +1,4 @@
+import java.util.Iterator;
 import java.util.List;
 
 // --== CS400 Project Two File Header ==--
@@ -27,4 +28,10 @@ public interface IExtendedSortedCollection<T extends Comparable<T>> extends Sort
      * @return the list of items in the tree between min and max in order, inclusive
      */
     public List<T> getItemsBetween(T min, T max);
+
+    /**
+     * Gives an iterator that is in level order instead of in order
+     * @return Itorator that has all the elements in the tree in level order
+     */
+    public Iterator<T> levelOrderIterator();
 }

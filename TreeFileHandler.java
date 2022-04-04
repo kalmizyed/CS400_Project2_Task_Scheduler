@@ -121,7 +121,7 @@ public class TreeFileHandler implements ITreeFileHandler {
             return false;
         }
 
-        Iterator<ITask> tasks = tree.iterator();
+        Iterator<ITask> tasks = tree.levelOrderIterator();
 
         output.println("<tasks>");
         while (tasks.hasNext()) {
