@@ -1,3 +1,10 @@
+// --== CS400 Project Two File Header ==--
+// Name: Kaden Almizyed
+// CSL Username: kaden
+// Email: kalmizyed@wisc.edu
+// Lecture #: 004 @4:00pm
+// Notes to Grader:
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -24,7 +31,7 @@ public class TreeFileHandler implements ITreeFileHandler {
      */
     @Override
     public IExtendedSortedCollection<ITask> getTreeFromFile(File f) throws FileNotFoundException, DataFormatException {
-        IExtendedSortedCollection<ITask> tree = new RedBlackTreePlaceholderDW<ITask>(); // TODO replace placeholder when integrating
+        IExtendedSortedCollection<ITask> tree = new RedBlackTree<ITask>();
         
         Scanner reader = new Scanner(f);
 
@@ -41,6 +48,7 @@ public class TreeFileHandler implements ITreeFileHandler {
             if(currentLine.charAt(0) == '<') { // Start of tag
 
                 if(currentLine.charAt(currentLine.length() - 1) != '>') {
+                    reader.close();
                     throw new DataFormatException("Invalid XML: bracket not closed");
                 }
 
@@ -50,12 +58,16 @@ public class TreeFileHandler implements ITreeFileHandler {
                     // If tag name matches currently opened tag, remove tag from openTags stack
                     if(openElements.peek().equals(tagName)) openElements.pop();
                     // Otherwise the XML is invalid
-                    else throw new DataFormatException("Invalid XML: tag mismatch");
+                    else {
+                        reader.close();
+                        throw new DataFormatException("Invalid XML: tag mismatch");
+                    }
 
                     // If this is a task tag being closed, add a new
                     // task with previously read name/date data
                     if(tagName.equals("task")) {
                         if(currentName == null || currentDate == null) {
+                            reader.close();
                             throw new DataFormatException("Invalid XML: Empty fields");
                         }
 
@@ -79,6 +91,7 @@ public class TreeFileHandler implements ITreeFileHandler {
 
                 // Make sure line isn't an invalid tag
                 if (currentLine.charAt(currentLine.length() - 1) == '>') {
+                    reader.close();
                     throw new DataFormatException("Invalid XML: bracket not opened");
                 }
 
@@ -94,12 +107,12 @@ public class TreeFileHandler implements ITreeFileHandler {
                 }
             }
         }
+
+        reader.close();
         
         // Make sure all tags have been closed
         if (openElements.size() > 0) throw new 
             DataFormatException("Invalid XML: not all tags closed");
-
-        reader.close();
         
         return tree;
     }
@@ -117,7 +130,6 @@ public class TreeFileHandler implements ITreeFileHandler {
         try {
             output = new PrintWriter(f);
         } catch (FileNotFoundException e) {
-            e.printStackTrace(); // TODO remove
             return false;
         }
 

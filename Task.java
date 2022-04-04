@@ -1,3 +1,10 @@
+// --== CS400 Project Two File Header ==--
+// Name: Kaden Almizyed
+// CSL Username: kaden
+// Email: kalmizyed@wisc.edu
+// Lecture #: 004 @4:00pm
+// Notes to Grader:
+
 import java.util.Date;
 
 public class Task implements ITask {

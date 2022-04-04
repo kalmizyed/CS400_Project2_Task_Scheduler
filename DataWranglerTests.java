@@ -1,3 +1,10 @@
+// --== CS400 Project Two File Header ==--
+// Name: Kaden Almizyed
+// CSL Username: kaden
+// Email: kalmizyed@wisc.edu
+// Lecture #: 004 @4:00pm
+// Notes to Grader:
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -11,6 +18,11 @@ import java.util.zip.DataFormatException;
 import org.junit.Test;
 
 public class DataWranglerTests {
+    
+    /**************/
+    /* UNIT TESTS */
+    /**************/
+    
     /**
      * Tests all constructors and getter methods of the Task class.
      */
@@ -247,6 +259,13 @@ public class DataWranglerTests {
         while (treeIterator.hasNext()) {
             assertEquals(0, treeIterator.next().compareTo(newTreeIterator.next()));
         }
-
     }
+
+    /*********************/
+    /* INTEGRATION TESTS */
+    /*********************/
+
+    /*********************/
+    /* CODE REVIEW TESTS */
+    /*********************/
 }
