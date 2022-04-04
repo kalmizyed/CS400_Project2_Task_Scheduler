@@ -1,7 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.zip.DataFormatException;
 
 // --== CS400 Project Two File Header ==--
@@ -33,6 +30,7 @@ public class TaskSchedulerBackend implements ITaskSchedulerBackend{
      * @param name the name of the task
      * @return true if task was successfully added, false otherwise
      */
+    @Override
     public boolean addTask(String dateString, String name){
         try{
             ITask task = new Task(name, dateFormat.parse(dateString));
@@ -50,6 +48,7 @@ public class TaskSchedulerBackend implements ITaskSchedulerBackend{
      * @param t the task to remove
      * @return the removed task
      */
+    @Override
     public ITask removeTask(ITask t){
         return tree.remove(t);
     }
@@ -57,6 +56,7 @@ public class TaskSchedulerBackend implements ITaskSchedulerBackend{
     /**
      * @return a list of all tasks in the tree
      */
+    @Override
     public List<ITask> getAllTasks(){
         List<ITask> list = new ArrayList<ITask>();
         for(ITask task: tree){
@@ -68,7 +68,9 @@ public class TaskSchedulerBackend implements ITaskSchedulerBackend{
     /**
      * @return a list of all overdue tasks in the tree
      */
+    @Override
     public List<ITask> getOverdue(){
+        if(tree.isEmpty()) return new ArrayList<ITask>();
         Date currentDate = Calendar.getInstance().getTime();
         ITask tempTask = new Task("", currentDate);
         ITask firstTask = tree.iterator().next();
@@ -83,6 +85,7 @@ public class TaskSchedulerBackend implements ITaskSchedulerBackend{
      * @return a list of all the tasks between the dates
      * @throws ParseException if the input strings are not correctly formatted
      */
+    @Override
     public List<ITask> getBetweenDates(String minDateString, String maxDateString) throws ParseException{
         Date minDate = dateFormat.parse(minDateString);
         Date maxDate = dateFormat.parse(maxDateString);
@@ -97,9 +100,9 @@ public class TaskSchedulerBackend implements ITaskSchedulerBackend{
      * @throws DataFormatException
      * @throws FileNotFoundException
      */
+    @Override
     public void loadTree() throws FileNotFoundException, DataFormatException{
-        Path workingDirectory = FileSystems.getDefault().getPath("tasks.xml");
-        File XMLFile = workingDirectory.toFile();
+        File XMLFile = new File("tasks.xml");
         ITreeFileHandler fileHandler= new TreeFileHandler();
         tree = fileHandler.getTreeFromFile(XMLFile);
     }
@@ -109,9 +112,9 @@ public class TaskSchedulerBackend implements ITaskSchedulerBackend{
      * Makes use of the ITreeFileHandler class.
      * @throws FileNotFoundException
      */
+    @Override
     public void saveTree(){
-        Path workingDirectory = FileSystems.getDefault().getPath("tasks.xml");
-        File XMLFile = workingDirectory.toFile();
+        File XMLFile = new File("tasks.xml");
         ITreeFileHandler fileHandler= new TreeFileHandler();
         if(!fileHandler.writeTreeToFile(XMLFile, tree)) throw new IllegalArgumentException();
     }
