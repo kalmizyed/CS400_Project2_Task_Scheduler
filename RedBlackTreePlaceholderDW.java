@@ -458,7 +458,6 @@ public class RedBlackTreePlaceholderDW<T extends Comparable<T>> implements IExte
 
     @Override
     public Iterator<T> levelOrderIterator() {
-        // Auto-generated method stub
-        return null;
+        return iterator();
     }
 }

@@ -1,18 +1,36 @@
+// --== CS400 Project Two File Header ==--
+// Name: Matthew Chang
+// CSL Username: matthewc
+// Email: mchang43@wisc.edu
+// Lecture #: 004
+// Notes to Grader: N/A
+
 import java.util.List;
 import java.util.Scanner;
+import java.util.zip.DataFormatException;
+import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.Date;
-
 
 public class TaskScheduleUI implements ITaskSchedulerFrontend{
 
     Scanner scanner;
     ITaskSchedulerBackend taskScheduler;
 
+    /**
+     * Constructor for a TaskScheduleUI object
+     * @param taskScheduler the backend database
+     */
     public TaskScheduleUI(ITaskSchedulerBackend taskScheduler){
         this.taskScheduler = taskScheduler;
+        try {
+          taskScheduler.loadTree();
+        } catch (Exception e) {}
     }
 
+    /**
+     * Outputs the introduction to teh program
+     */
     @Override
     public void runCommandLoop() {
         scanner = new Scanner(System.in);
@@ -21,6 +39,9 @@ public class TaskScheduleUI implements ITaskSchedulerFrontend{
         showCommandMenu();
     }
 
+    /**
+     * Shows the command menu that the use can choose from
+     */
     @Override
     public void showCommandMenu() {
         System.out.println("Command Menu:");
@@ -94,9 +115,11 @@ public class TaskScheduleUI implements ITaskSchedulerFrontend{
      */
     @Override
     public void displayTaskList(List<ITask> tasks) {
-      System.out.println("Display Tasks: ");
+      System.out.println();
+      System.out.println("Current Tasks: ");
         for (ITask task : tasks)
           System.out.println(task.getName() + " | by " + task.getDate());
+        System.out.println();
     }
 
     /**
@@ -116,10 +139,15 @@ public class TaskScheduleUI implements ITaskSchedulerFrontend{
 
       String newDate = date + "-" + time;
       
-      taskScheduler.addTask(newDate, newName);
-      
-      System.out.println();
-      System.out.println("Task Added! " + newName + " by " + time + " " + date);
+      if (taskScheduler.addTask(newDate, newName)) {
+        System.out.println();
+        System.out.println("Task Added! " + newName + " by " + time + " " + date);
+        System.out.println();
+      }
+      else {
+        System.out.println();
+        System.out.println("Invalid task. Try again.");
+      }
       
       showCommandMenu();
     }
@@ -130,56 +158,45 @@ public class TaskScheduleUI implements ITaskSchedulerFrontend{
      */
     @Override
     public void completeTask() {
-      boolean containsName = false;
-      boolean containsDate = false;
-      boolean containsTime = false;
       List<ITask> taskList = taskScheduler.getAllTasks();
       
-      displayTaskList(taskList);
-      
-      System.out.println("Enter name: ");
-      String name = scanner.nextLine();
+      int iterate = 0;
       for (ITask task : taskList) {
-        if (task.getName().equals(name)) containsName = true;
+        iterate++;
+        System.out.println(iterate + ": " + task.getName() + " | by " + task.getDate());
       }
       
-      System.out.println("Enter date and time MM/DD/YYYY HH:MM : ");
+      System.out.println("Which task did you complete? (Enter task number): ");
+      int taskNum = Integer.parseInt(scanner.nextLine()) - 1;
       
-      String dat1 = scanner.nextLine();
-      try {
-        Integer.parseInt(dat1.substring(0,2));
-        Integer.parseInt(dat1.substring(3,5));
-        Integer.parseInt(dat1.substring(6,10));
-        Integer.parseInt(dat1.substring(11,13));
-        Integer.parseInt(dat1.substring(14,16));
-      }
-      catch(Exception e) {
-        System.out.println("Invalid Date.");
-        showCommandMenu();
-        return;
-      }
-      
-      Date date = stringToDate(dat1);
-      for (ITask task : taskList) {
-        if (task.getDate().equals(date)) containsDate = true;
+      if (taskNum > taskList.size() || taskNum < 0) 
+        System.out.println("Invalid task number. Try Again.");
+      else {
+        for (int i = 0; i < taskList.size(); i++) {
+          if (i == taskNum) {
+            taskScheduler.removeTask(taskList.get(i));
+            System.out.println("Task successfully completed.");
+            System.out.println();
+          }
+        }
       }
       
-      Task completedTask = new Task(name, date);
-      if (containsName && containsDate) {
-        taskScheduler.removeTask(completedTask);
-        System.out.println("Task " + name + " completed!");
-      }
-      else
-        System.out.println("Task not found. Try Again.");
       showCommandMenu();
     }
 
+    /**
+     * Quits the program
+     */
     public void quit(){
         System.out.println("Quitting...");
         scanner.close();
+        taskScheduler.saveTree();
         return;
     }
 
+    /**
+     * Displays a task between two inputed dates
+     */
     @Override
     public void displayTasksBetweenDates() {
       System.out.println("Earliest Date MM/DD/YYYY-HH:MM: ");
@@ -198,20 +215,5 @@ public class TaskScheduleUI implements ITaskSchedulerFrontend{
       
       showCommandMenu();
     }
-    
-    /**
-     * Turns a string into a date
-     * @param str the string to turn into a date
-     * @return date the Date
-     */
-    public Date stringToDate(String str) {
-      int month = Integer.parseInt(str.substring(0,2));
-      int day = Integer.parseInt(str.substring(3,5));
-      int year = Integer.parseInt(str.substring(6,10));
-      int hr = Integer.parseInt(str.substring(11,13));
-      int min = Integer.parseInt(str.substring(14,16));
-      
-      Date date = new Date(month, day, year, hr, min);
-      return date;
-    }
 } 
+

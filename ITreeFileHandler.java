@@ -13,11 +13,11 @@ public interface ITreeFileHandler {
     /**
      * From given File f, parse the XML data and convert it to a tree.
      * @param f XML data file representing a binary search tree.
-     * @return a SortedCollectionInterface object containing the XML tree's data.
+     * @param tree an empty SortedCollectionInterface object that will contain the XML tree's data.
      * @throws FileNotFoundException
      * @throws DataFormatException
      */
-    IExtendedSortedCollection<ITask> getTreeFromFile(File f) throws FileNotFoundException, DataFormatException;
+    void getTreeFromFile(File f, IExtendedSortedCollection<ITask> tree) throws FileNotFoundException, DataFormatException;
 
     /**
      * From given SortedCollectionInterface tree, convert it

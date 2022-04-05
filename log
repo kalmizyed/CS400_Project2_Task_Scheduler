@@ -1,126 +1,0 @@
-Script started on 2022-04-01 01:56:06+00:00 [TERM="xterm-256color" TTY="/dev/pts/1" COLUMNS="110" LINES="46"]
-git status
-git log -1
-make clean
-ls
-make runTests
-exit]0;mchang43@instance-1: ~/Project2_DC_red[01;32mmchang43@instance-1[00m:[01;34m~/Project2_DC_red[00m$ git status
-On branch FrontendDeveloper
-Script started on Mon Mar 28 20:40:00 2022
-[1m[7m%[27m[1m[0m                                                                                                                                                      [0m[27m[24m[J(base) joe@Josephs-MacBook-Air Project2_DC_red % [K[?2004hggit status[?2004l
-On branch BackendDeveloper
-Your branch is ahead of 'origin/BackendDeveloper' by 13 commits.
->>>>>>> BackendDeveloper
-  (use "git push" to publish your local commits)
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	[31m.DS_Store[m
-	[31mlog[m
-
-nothing added to commit but untracked files present (use "git add" to track)
-<<<<<<< HEAD
-]0;mchang43@instance-1: ~/Project2_DC_red[01;32mmchang43@instance-1[00m:[01;34m~/Project2_DC_red[00m$ git log -1
-[?1h=[33mcommit 585f81e7c01917acbd3a1eaeba644ea866b8ba0f[m[33m ([m[1;36mHEAD -> [m[1;32mFrontendDeveloper[m[33m)[m[m
-Author: Matthew Chang <mchang43@wisc.edu>[m
-Date:   Fri Apr 1 01:55:44 2022 +0000[m
-[m
-    everything done[m
-[K[?1l>]0;mchang43@instance-1: ~/Project2_DC_red[01;32mmchang43@instance-1[00m:[01;34m~/Project2_DC_red[00m$ make clean
-rm *.class
-rm: cannot remove '*.class': No such file or directory
-make: *** [Makefile:5: clean] Error 1
-]0;mchang43@instance-1: ~/Project2_DC_red[01;32mmchang43@instance-1[00m:[01;34m~/Project2_DC_red[00m$ ls
-FrontendDeveloperTests.java     ITaskSchedulerFrontend.java     TaskScheduleBackend.java  log
-IExtendedSortedCollection.java  Makefile                        TaskScheduleUI.java
-ITask.java                      SortedCollectionInterface.java  TextUITester.java
-ITaskSchedulerBackend.java      Task.java                       [0m[01;31mjunit5.jar[0m
-]0;mchang43@instance-1: ~/Project2_DC_red[01;32mmchang43@instance-1[00m:[01;34m~/Project2_DC_red[00m$ make runTests
-javac TaskScheduleBackend.java
-javac TaskScheduleUI.java
-Note: TaskScheduleUI.java uses or overrides a deprecated API.
-Note: Recompile with -Xlint:deprecation for details.
-javac TextUITester.java
-javac SortedCollectionInterface.java
-javac IExtendedSortedCollection.java
-javac -cp .:junit5.jar FrontendDeveloperTests.java -Xlint
-java -jar junit5.jar --class-path . --scan-classpath
-=======
-[1m[7m%[27m[1m[0m                                                                                                                                                      [0m[27m[24m[J(base) joe@Josephs-MacBook-Air Project2_DC_red % [K[?2004hggit log -1[?2004l
-[?1h=[33mcommit 95608fa985034e4f9bd646f5aed0efbdcca6f01c[m[33m ([m[1;36mHEAD -> [m[1;32mBackendDeveloper[m[33m)[m[m
-Author: Joseph Cai <jbcai@wisc.edu>[m
-Date:   Mon Mar 28 20:39:53 2022 -0500[m
-[m
-    Fixed Makefile[m
-[K[?1l>[1m[7m%[27m[1m[0m                                                                                                                                                      [0m[27m[24m[J(base) joe@Josephs-MacBook-Air Project2_DC_red % [K[?2004hmmake clean[?2004l
-rm *.class
-[1m[7m%[27m[1m[0m                                                                                                                                                      [0m[27m[24m[J(base) joe@Josephs-MacBook-Air Project2_DC_red % [K[?2004hlls[?2004l
-BackendDeveloperTests.java		ITreeFileHandler.java			TaskSchedulerBackend.java
-IExtendedSortedCollection.java		Makefile				TreeFileHandlerPlaceholderBD.java
-ITask.java				RedBlackTree.java			junit5.jar
-ITaskSchedulerBackend.java		SortedCollectionInterface.java		log
-ITaskSchedulerFrontend.java		TaskPlaceholder.java
-[1m[7m%[27m[1m[0m                                                                                                                                                      [0m[27m[24m[J(base) joe@Josephs-MacBook-Air Project2_DC_red % [K[?2004hmmake runTests[?2004l
-javac ITask.java
-javac ITaskSchedulerBackend.java
-javac TaskPlaceholder.java
-javac SortedCollectionInterface.java
-javac IExtendedSortedCollection.java
-javac ITreeFileHandler.java
-javac TreeFileHandlerPlaceholderBD.java
-Note: TreeFileHandlerPlaceholderBD.java uses or overrides a deprecated API.
-Note: Recompile with -Xlint:deprecation for details.
-javac TaskSchedulerBackend.java
-javac -cp .:junit5.jar BackendDeveloperTests.java
-Note: BackendDeveloperTests.java uses or overrides a deprecated API.
-Note: Recompile with -Xlint:deprecation for details.
-java -jar junit5.jar -cp . --scan-classpath -n BackendDeveloperTests
-Removing Task1 Mon Mar 28 01:01:00 CDT 2022...
-Case 0
-Removing Task2 Mon Mar 28 02:02:00 CDT 2022...
-Case 1
-Removing Task3 Mon Mar 28 03:03:00 CDT 2022...
-Case 0
-
-Thanks for using JUnit! Support its development at https://junit.org/sponsoring
-
-[36m╷[0m
-[36m├─[0m [36mJUnit Jupiter[0m [32m✔[0m
-[36m│  └─[0m [36mFrontendDeveloperTests[0m [32m✔[0m
-[36m│     ├─[0m [34mtestDisplayOverdueTasks()[0m [32m✔[0m
-[36m│     ├─[0m [34mtestAddTask()[0m [32m✔[0m
-[36m│     ├─[0m [34mtestDisplayAllTasks()[0m [32m✔[0m
-[36m│     ├─[0m [34mtestShowCommandMenu()[0m [32m✔[0m
-[36m│     └─[0m [34mtestCompleteTask()[0m [32m✔[0m
-[36m└─[0m [36mJUnit Vintage[0m [32m✔[0m
-
-Test run finished after 340 ms
-=======
-[36m│  └─[0m [36mBackendDeveloperTests[0m [32m✔[0m
-[36m│     ├─[0m [34mtestLoadSave()[0m [32m✔[0m
-[36m│     ├─[0m [34mtestGetAllTasks()[0m [32m✔[0m
-[36m│     ├─[0m [34mtestGetOverdue()[0m [32m✔[0m
-[36m│     ├─[0m [34mtestAddRemove()[0m [32m✔[0m
-[36m│     └─[0m [34mtestGetBetweenDates()[0m [32m✔[0m
-[36m└─[0m [36mJUnit Vintage[0m [32m✔[0m
-
-Test run finished after 262 ms
->>>>>>> BackendDeveloper
-[         3 containers found      ]
-[         0 containers skipped    ]
-[         3 containers started    ]
-[         0 containers aborted    ]
-[         3 containers successful ]
-[         0 containers failed     ]
-[         5 tests found           ]
-[         0 tests skipped         ]
-[         5 tests started         ]
-[         0 tests aborted         ]
-[         5 tests successful      ]
-[         0 tests failed          ]
-
-]0;mchang43@instance-1: ~/Project2_DC_red[01;32mmchang43@instance-1[00m:[01;34m~/Project2_DC_red[00m$ exit
-exit
-
-Script done on 2022-04-01 01:56:17+00:00 [COMMAND_EXIT_CODE="0"]
-[1m[7m%[27m[1m[0m                                                                                                                                                      [0m[27m[24m[J(base) joe@Josephs-MacBook-Air Project2_DC_red % [K[?2004heexit[?2004l

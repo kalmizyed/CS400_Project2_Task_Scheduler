@@ -47,8 +47,7 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
         }
 
     }
-
-    protected Node<T> root; // reference to root node of tree, null when empty
+protected Node<T> root; // reference to root node of tree, null when empty
     protected int size = 0; // the number of values in the tree
 
     /**
@@ -118,7 +117,7 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
     }
 
     /**
-     * Resolves any Red Black Tree rule violations using color swaps and rotations (sometimes recursively) 
+     * Resolves any Red Black Tree rule violations using color swaps and rotations (sometimes recursively)
      * @param node at which to check for and resolve violations
      */
     protected void enforceRBTreePropertiesAfterInsert(Node<T> node){
@@ -175,7 +174,7 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
     private void rotate(Node<T> child, Node<T> parent) throws IllegalArgumentException {
         if(parent == null) throw new IllegalArgumentException("null parent");
         if(child == null) throw new IllegalArgumentException("null child");
-        if(!(parent.leftChild == child || parent.rightChild == child)) 
+        if(!(parent.leftChild == child || parent.rightChild == child))
             throw new IllegalArgumentException("child is not one of parent's children");
         if(child.isLeftChild()){
             //right rotation
@@ -199,7 +198,7 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
                               /   \
                              b     c
             */
-            
+
             // a and c already in positon relative to their parents
 
             Node<T> b = child.rightChild; //leftChild for left rotation
@@ -212,7 +211,7 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
                 if(parent.isLeftChild()) parent.parent.leftChild = child;
                 else parent.parent.rightChild = child;
             }
-            //set child's rightChild reference to parent. 
+            //set child's rightChild reference to parent.
             //No garbage collection issues since we have a reference to b from earlier
             child.rightChild = parent; //leftChild for left rotation
             //set parent's leftChild reference to b
@@ -246,14 +245,14 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
     }
     /**
      * Removes the node with the given data from the tree (using compareTo, not ==)
-     * @param data data that a node must match to be removed 
+     * @param data data that a node must match to be removed
      * @return the removed node, or null if the node is node in the tree
      */
     @Override
     public T remove(T data) {
         Node<T> toRemove = findNodeToRemove(data, root);
         if(toRemove == null) return null;
-        System.out.println("Removing " + toRemove.data + "...");
+        //System.out.println("Removing " + toRemove.data + "...");
         return removeHelper(toRemove);
     }
     /**
@@ -284,7 +283,7 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
     protected T removeHelper(Node<T> node){
         //no children
         if(node.leftChild == null && node.rightChild == null){
-            System.out.println("Case 0");
+            //System.out.println("Case 0");
             //if the node is the root, simply delete it
             if(node == root) {
                 root = null;
@@ -307,21 +306,21 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
         T data = node.data;
         //one child, replace node's data with the child's then delete the child
         if(node.rightChild == null){
-            System.out.println("Case 1");
+            //System.out.println("Case 1");
             node.data = node.leftChild.data;
             deleteNode(node.leftChild);
             this.size--;
             return data;
         }
         if(node.leftChild == null){
-            System.out.println("Case 1");
+            //System.out.println("Case 1");
             node.data = node.rightChild.data;
             deleteNode(node.rightChild);
             this.size--;
             return data;
         }
         //two children
-        System.out.println("Case 2");
+        //System.out.println("Case 2");
         //find successor
         Node<T> suc = node.rightChild;
         while(suc.leftChild != null){
@@ -340,7 +339,7 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
         node.parent.rightChild = null;
     }
     /**
-     * Prepares the tree for removal of a black leaf node by resolving the double black node (sometime recursivly)
+     * Prepares the tree for removal of a black leaf node by resolving the double black node (sometime recursively)
      * @param db reference to the double black node
      */
     protected void resolveDoubleBlack(Node<T> db){
@@ -348,12 +347,12 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
         Node<T> sibling;
         if(db.isLeftChild()) sibling = parent.rightChild;
         else sibling = parent.leftChild;
-        System.out.println("db: " + db.getText());
-        System.out.println("parent: " + parent.getText());
-        System.out.println("sibling: " + sibling.getText());
+        //System.out.println("db: " + db.getText());
+        //System.out.println("parent: " + parent.getText());
+        //System.out.println("sibling: " + sibling.getText());
         //double black has red sibling, rotate and color swap sibling and parent, then recurse at the double black
         if(sibling.blackHeight == 0){
-            System.out.println("DoubleBlack Case 2");
+            //System.out.println("DoubleBlack Case 2");
             rotate(sibling, parent);
             int tmp = parent.blackHeight;
             parent.blackHeight = sibling.blackHeight;
@@ -364,7 +363,7 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
         //double black's sibling has no red children
         if((sibling.leftChild == null || sibling.leftChild.blackHeight == 1)
             && (sibling.rightChild == null || sibling.rightChild.blackHeight == 1)){
-                System.out.println("DoubleBlack Case 1");
+                //System.out.println("DoubleBlack Case 1");
                 //substract 1 from the double black and the sibling's black heights, add one to the parents
                 db.blackHeight--;
                 sibling.blackHeight--;
@@ -380,7 +379,7 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
                 return;
         }
         //double black's sibling is black with at least one red child
-        System.out.println("DoubleBlack Case 0");
+        //System.out.println("DoubleBlack Case 0");
         //sibling's only red child is oriented inward, rotate and color swap sibling and its inner child
         if(sibling.isLeftChild() && (sibling.leftChild == null || sibling.leftChild.blackHeight == 1)){
             int tmp = sibling.blackHeight;
@@ -567,9 +566,9 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
     }
 
     /**
-     * This method performs an inorder traversal of the tree. The string 
+     * This method performs an inorder traversal of the tree. The string
      * representations of each data value within this tree are assembled into a
-     * comma separated string within brackets (similar to many implementations 
+     * comma separated string within brackets (similar to many implementations
      * of java.util.Collection, like java.util.ArrayList, LinkedList, etc).
      * Note that this RedBlackTree class implementation of toString generates an
      * inorder traversal. The toString of the Node class class above
@@ -628,3 +627,4 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
     }
 
 }
+
