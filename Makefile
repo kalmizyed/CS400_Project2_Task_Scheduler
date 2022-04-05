@@ -22,6 +22,18 @@ runDataWranglerTests: DataWranglerTests.class
 DataWranglerTests.class: DataWranglerTests.java 
 	javac -cp .:junit5.jar DataWranglerTests.java -Xlint
 
+ITreeFileHandler.class: ITreeFileHandler.java ITask.class IExtendedSortedCollection.class 
+	javac ITreeFileHandler.java
+
+TreeFileHandler.class: TreeFileHandler.java ITreeFileHandler.class ITask.class Task.class RedBlackTree.class
+	javac TreeFileHandler.java
+
+ITask.class: ITask.java
+	javac ITask.java
+
+Task.class: Task.java ITask.class
+	javac Task.java
+
 ######################
 # ALGORITHM ENGINEER #
 ######################
@@ -65,19 +77,11 @@ TaskSchedulerBackend.class: TaskSchedulerBackend.java ITaskSchedulerBackend.clas
 	javac TaskSchedulerBackend.java
 ITaskSchedulerBackend.class: ITaskSchedulerBackend.java ITask.class
 	javac ITaskSchedulerBackend.java
-ITask.class: ITask.java
-	javac ITask.java
-Task.class: Task.java ITask.class
-	javac Task.java
-TreeFileHandler.class: TreeFileHandler.java ITreeFileHandler.class ITask.class Task.class 
-	javac TreeFileHandler.java
 TaskPlaceholder.class: TaskPlaceholder.java ITask.class
 	javac TaskPlaceholder.java
 IExtendedSortedCollection.class: IExtendedSortedCollection.java SortedCollectionInterface.class
 	javac IExtendedSortedCollection.java
 SortedCollectionInterface.class: SortedCollectionInterface.java
 	javac SortedCollectionInterface.java
-ITreeFileHandler.class: ITreeFileHandler.java ITask.class IExtendedSortedCollection.class 
-	javac ITreeFileHandler.java
 TreeFileHandlerPlaceholderBD.class: TreeFileHandlerPlaceholderBD.java ITreeFileHandler.class ITask.class
 	javac TreeFileHandlerPlaceholderBD.java
