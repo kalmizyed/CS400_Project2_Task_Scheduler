@@ -115,9 +115,11 @@ public class TaskScheduleUI implements ITaskSchedulerFrontend{
      */
     @Override
     public void displayTaskList(List<ITask> tasks) {
+      System.out.println();
       System.out.println("Current Tasks: ");
         for (ITask task : tasks)
           System.out.println(task.getName() + " | by " + task.getDate());
+        System.out.println();
     }
 
     /**
@@ -140,6 +142,7 @@ public class TaskScheduleUI implements ITaskSchedulerFrontend{
       if (taskScheduler.addTask(newDate, newName)) {
         System.out.println();
         System.out.println("Task Added! " + newName + " by " + time + " " + date);
+        System.out.println();
       }
       else {
         System.out.println();
@@ -166,13 +169,17 @@ public class TaskScheduleUI implements ITaskSchedulerFrontend{
       System.out.println("Which task did you complete? (Enter task number): ");
       int taskNum = Integer.parseInt(scanner.nextLine()) - 1;
       
-      for (int i = 0; i < taskList.size(); i++) {
-        if (i == taskNum) {
-          taskScheduler.removeTask(taskList.get(i));
-          System.out.println("Task successfully completed.");
+      if (taskNum > taskList.size() || taskNum < 0) 
+        System.out.println("Invalid task number. Try Again.");
+      else {
+        for (int i = 0; i < taskList.size(); i++) {
+          if (i == taskNum) {
+            taskScheduler.removeTask(taskList.get(i));
+            System.out.println("Task successfully completed.");
+            System.out.println();
+          }
         }
       }
-      if (taskNum > taskList.size() + 1 || taskNum < 1) System.out.println("Invalid task number. Try Again.");
       
       showCommandMenu();
     }
