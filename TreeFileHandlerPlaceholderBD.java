@@ -6,17 +6,14 @@ import java.util.Date;
 public class TreeFileHandlerPlaceholderBD implements ITreeFileHandler{
 
     @Override
-    public IExtendedSortedCollection<ITask> getTreeFromFile(File f) {
+    public void getTreeFromFile(File f, IExtendedSortedCollection<ITask> tree) {
         if(f.exists()){
-            IExtendedSortedCollection<ITask> tree = new RedBlackTree<ITask>();
+            tree = new RedBlackTree<ITask>();
             tree.insert(new TaskPlaceholder("Task1", new Date(2022,3,28,12,12)));
             tree.insert(new TaskPlaceholder("Task1", new Date(2022,3,27,12,12)));
             tree.insert(new TaskPlaceholder("Task1", new Date(2022,3,29,12,12)));
             tree.insert(new TaskPlaceholder("Task1", new Date(2022,3,26,12,12)));
-            return tree;
-        }
-        else return null;
-        
+        }        
     }
 
     @Override

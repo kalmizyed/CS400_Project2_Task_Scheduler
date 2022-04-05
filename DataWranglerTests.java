@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.Date;
 import java.util.Iterator;
+import java.util.Scanner;
 import java.util.zip.DataFormatException;
 
 import org.junit.Test;
@@ -347,4 +348,56 @@ public class DataWranglerTests {
     /*********************/
     /* CODE REVIEW TESTS */
     /*********************/
+
+    // Code review partner: Matthew Chang (Frontend Developer)
+
+    /**
+     * Tests that the frontend saves the current state of the tree when quitting.
+     */
+    @Test
+    public void testFileSaved() {
+        TextUITester tester;
+        TaskScheduleUI frontend = new TaskScheduleUI(new TaskSchedulerBackend());
+
+        tester = new TextUITester("1\nFinish Semester\n05/05/2022\n23:59\n6\n");
+        frontend.runCommandLoop();
+        tester.checkOutput();
+
+        File dataFile = new File("data.xml");
+
+        // Test that the output file contains the Task name
+        try {
+            Scanner data = new Scanner(dataFile);
+            boolean containsTask = false;
+            while(data.hasNext()) {
+                if (data.next().contains("Finish Semester")) containsTask = true;
+            }
+            data.close();
+            assertTrue(containsTask);
+        } catch (FileNotFoundException e) {
+            fail(e);
+        }
+        
+    }
+
+    /**
+     * Tests that the frontend loads the saved state of the tree when starting.
+     */
+    @Test
+    public void testFileLoaded() {
+        // Run the frontend and save a task
+        TaskScheduleUI frontend1 = new TaskScheduleUI(new TaskSchedulerBackend());
+        TextUITester tester1 = new TextUITester("1\nFinish Semester\n05/05/2022\n23:59\n6\n");
+        frontend1.runCommandLoop();
+        tester1.checkOutput();
+
+        // Run the frontend again and display Tasks
+        TaskScheduleUI frontend2 = new TaskScheduleUI(new TaskSchedulerBackend());
+        TextUITester tester2 = new TextUITester("3\n6\n");
+        frontend2.runCommandLoop();
+        String output = tester2.checkOutput();
+
+        // Frontend should have printed the Task name
+        assertTrue(output.contains("Finish Semester"));
+    }
 }
