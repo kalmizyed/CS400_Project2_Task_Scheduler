@@ -128,11 +128,11 @@ public class DataWranglerTests {
     @Test
     public void testReadGoodXML() {
         File inputFile = new File("testInputValid.xml");
-        IExtendedSortedCollection<ITask> tree;
+        IExtendedSortedCollection<ITask> tree = new RedBlackTreePlaceholderDW<>();
 
         // Read tree, fail immediately if exception is thrown
         try {
-            tree = (new TreeFileHandler()).getTreeFromFile(inputFile);
+            (new TreeFileHandler()).getTreeFromFile(inputFile, tree);
         } catch (FileNotFoundException | DataFormatException e) {
             fail(e);
             return;
@@ -151,11 +151,11 @@ public class DataWranglerTests {
     @Test
     public void testReadEmptyTasks() {
         File inputFile = new File("testInputInvalidEmptyTasks.xml");
-        IExtendedSortedCollection<ITask> tree;
+        IExtendedSortedCollection<ITask> tree = new RedBlackTreePlaceholderDW<>();
 
         // Read tree, fail immediately if exception is thrown
         try {
-            tree = (new TreeFileHandler()).getTreeFromFile(inputFile);
+            (new TreeFileHandler()).getTreeFromFile(inputFile, tree);
         } catch (FileNotFoundException e) {
             fail(e);
             return;
@@ -172,11 +172,11 @@ public class DataWranglerTests {
     @Test
     public void testReadInvalidTagNames() {
         File inputFile = new File("testInputInvalidTagNames.xml");
-        IExtendedSortedCollection<ITask> tree;
+        IExtendedSortedCollection<ITask> tree = new RedBlackTreePlaceholderDW<>();
 
         // Read tree, fail immediately if exception is thrown
         try {
-            tree = (new TreeFileHandler()).getTreeFromFile(inputFile);
+            (new TreeFileHandler()).getTreeFromFile(inputFile, tree);
         } catch (FileNotFoundException | DataFormatException e) {
             fail(e);
             return;
@@ -192,11 +192,11 @@ public class DataWranglerTests {
     @Test
     public void testReadTagsOpen() {
         File inputFile = new File("testInputInvalidTagsOpen.xml");
-        IExtendedSortedCollection<ITask> tree;
+        IExtendedSortedCollection<ITask> tree = new RedBlackTreePlaceholderDW<>();
 
         // Read tree, fail immediately if exception is thrown
         try {
-            tree = (new TreeFileHandler()).getTreeFromFile(inputFile);
+            (new TreeFileHandler()).getTreeFromFile(inputFile, tree);
         } catch (DataFormatException e) {
             return;
         } catch (FileNotFoundException e) {
@@ -212,11 +212,11 @@ public class DataWranglerTests {
     @Test
     public void testReadInvalidTagSyntax() {
         File inputFile = new File("testInputInvalidTagSyntax.xml");
-        IExtendedSortedCollection<ITask> tree;
+        IExtendedSortedCollection<ITask> tree = new RedBlackTreePlaceholderDW<>();
 
         // Read tree, fail immediately if exception is thrown
         try {
-            tree = (new TreeFileHandler()).getTreeFromFile(inputFile);
+            (new TreeFileHandler()).getTreeFromFile(inputFile, tree);
         } catch (DataFormatException e) {
             return;
         } catch (FileNotFoundException e) {
@@ -245,7 +245,7 @@ public class DataWranglerTests {
         // Read tree from file
         IExtendedSortedCollection<ITask> newTree = new RedBlackTreePlaceholderDW<ITask>();
         try {
-            newTree = new TreeFileHandler().getTreeFromFile(file);
+            new TreeFileHandler().getTreeFromFile(file, newTree);
         } catch (FileNotFoundException | DataFormatException e) {
             fail(e);
         }
@@ -264,6 +264,85 @@ public class DataWranglerTests {
     /*********************/
     /* INTEGRATION TESTS */
     /*********************/
+
+    /**
+     * Tests the writeTreeToFile() and getTreeFromFile() methods separately,
+     * working with the RedBlackTree class written by the Algorithm Engineer.
+     */
+    @Test
+    public void testReadAndWriteIndividualIntegrated() {
+
+        // Test reading
+
+        File inputFile = new File("testInputValid.xml");
+        IExtendedSortedCollection<ITask> tree = new RedBlackTree<>();
+
+        // Read tree, fail immediately if exception is thrown
+        try {
+            (new TreeFileHandler()).getTreeFromFile(inputFile, tree);
+        } catch (FileNotFoundException | DataFormatException e) {
+            fail(e);
+            return;
+        }
+
+        // Validate aspects of the tree
+        assertEquals(3, tree.size());
+        assertTrue(tree.contains(new Task("Test that this task works", new Date(1648502886275l))));
+        assertTrue(tree.contains(new Task("Test task 2", new Date(1648502986275l))));
+        assertTrue(tree.contains(new Task("Testing the third", new Date(1648503886275l))));
+
+        // Test writing
+
+        tree = new RedBlackTree<ITask>();
+
+        // Add 10 tasks to the tree, differing in name and date
+        for(int i = 0; i < 10; i++) {
+            Task task = new Task(Integer.toString(i), new Date(System.currentTimeMillis()));
+            tree.insert(task);
+        }
+
+        File outputFile = new File("testOutputValid.xml");
+
+        // Call writeTreeToFile on a new TreeFileHandler
+        boolean successfulWrite = new TreeFileHandler().writeTreeToFile(outputFile, tree);
+
+        assertTrue(successfulWrite);
+    }
+
+    /**
+     * Tests that the writeTreeToFile() and getTreeFromFile() methods from the TreeFileHandler class work in conjunction with one another.
+     */
+    @Test
+    public void testOutputAndInputIntegrated() {
+        RedBlackTree<ITask> tree = new RedBlackTree<ITask>();
+        File file = new File("testInputOutput.xml");
+
+        // Add 10 elements to the tree
+        for(int i = 0; i < 10; i++) {
+            tree.insert(new Task(Integer.toString(i), new Date(System.currentTimeMillis())));
+        }
+
+        // Write tree to file
+        new TreeFileHandler().writeTreeToFile(file, tree);
+
+        // Read tree from file
+        RedBlackTree<ITask> newTree = new RedBlackTree<ITask>();
+        try {
+            new TreeFileHandler().getTreeFromFile(file, newTree);
+        } catch (FileNotFoundException | DataFormatException e) {
+            fail(e);
+        }
+
+        // Validate trees are the same
+        assertEquals(tree.size(), newTree.size()); // size
+
+        Iterator<ITask> treeIterator = tree.iterator();
+        Iterator<ITask> newTreeIterator = newTree.iterator();
+
+        while (treeIterator.hasNext()) {
+            assertEquals(0, treeIterator.next().compareTo(newTreeIterator.next()));
+        }
+    }
 
     /*********************/
     /* CODE REVIEW TESTS */

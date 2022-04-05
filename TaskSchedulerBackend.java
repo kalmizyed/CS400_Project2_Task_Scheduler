@@ -104,7 +104,7 @@ public class TaskSchedulerBackend implements ITaskSchedulerBackend{
     public void loadTree() throws FileNotFoundException, DataFormatException{
         File XMLFile = new File("tasks.xml");
         ITreeFileHandler fileHandler= new TreeFileHandler();
-        tree = fileHandler.getTreeFromFile(XMLFile);
+        fileHandler.getTreeFromFile(XMLFile, tree);
     }
 
     /**

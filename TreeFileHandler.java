@@ -26,13 +26,11 @@ public class TreeFileHandler implements ITreeFileHandler {
      * Given a File, parses the XML data and returns it in
      * the form of an IExtendedSortedCollection tree.
      * @param f XML data file representing a binary search tree.
-     * @return a SortedCollectionInterface object containing the XML tree's data.
+     * @param tree an empty SortedCollectionInterface object that will contain the XML tree's data.
      * @throws FileNotFoundException if the file isn't found
      */
     @Override
-    public IExtendedSortedCollection<ITask> getTreeFromFile(File f) throws FileNotFoundException, DataFormatException {
-        IExtendedSortedCollection<ITask> tree = new RedBlackTree<ITask>();
-        
+    public void getTreeFromFile(File f, IExtendedSortedCollection<ITask> tree) throws FileNotFoundException, DataFormatException {     
         Scanner reader = new Scanner(f);
 
         Stack<String> openElements = new Stack<String>();
@@ -114,7 +112,6 @@ public class TreeFileHandler implements ITreeFileHandler {
         if (openElements.size() > 0) throw new 
             DataFormatException("Invalid XML: not all tags closed");
         
-        return tree;
     }
 
     /**
