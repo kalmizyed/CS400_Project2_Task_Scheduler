@@ -5,7 +5,7 @@ class FrontendDeveloperTests {
 
   @Test
   void testShowCommandMenu() {
-    TaskScheduleBackend backend = new TaskScheduleBackend();
+    TaskSchedulerBackendPlaceholderFD backend = new TaskSchedulerBackendPlaceholderFD();
     TaskScheduleUI frontend = new TaskScheduleUI(backend);
     
     TextUITester tester;
@@ -57,7 +57,7 @@ class FrontendDeveloperTests {
 
   @Test
   void testDisplayAllTasks() {
-    TaskScheduleBackend backend = new TaskScheduleBackend();
+    TaskSchedulerBackendPlaceholderFD backend = new TaskSchedulerBackendPlaceholderFD();
     TaskScheduleUI frontend = new TaskScheduleUI(backend);
     
     String output;
@@ -76,7 +76,7 @@ class FrontendDeveloperTests {
   
   @Test
   void testDisplayOverdueTasks() {
-    TaskScheduleBackend backend = new TaskScheduleBackend();
+    TaskSchedulerBackendPlaceholderFD backend = new TaskSchedulerBackendPlaceholderFD();
     TaskScheduleUI frontend = new TaskScheduleUI(backend);
     
     String output;
@@ -94,7 +94,7 @@ class FrontendDeveloperTests {
   
   @Test
   void testCompleteTask() {
-    TaskScheduleBackend backend = new TaskScheduleBackend();
+    TaskSchedulerBackendPlaceholderFD backend = new TaskSchedulerBackendPlaceholderFD();
     TaskScheduleUI frontend = new TaskScheduleUI(backend);
     
     String output;
@@ -119,7 +119,7 @@ class FrontendDeveloperTests {
   
   @Test
   void testAddTask() {
-    TaskScheduleBackend backend = new TaskScheduleBackend();
+    TaskSchedulerBackendPlaceholderFD backend = new TaskSchedulerBackendPlaceholderFD();
     TaskScheduleUI frontend = new TaskScheduleUI(backend);
     
     String output;
