@@ -288,17 +288,20 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
             //if the node is the root, simply delete it
             if(node == root) {
                 root = null;
+                this.size--;
                 return node.data;
             }
             //if the node is red, simply delete it
             if(node.blackHeight == 0){
                 deleteNode(node);
+                this.size--;
                 return node.data;
             }
             //if the node is black, set it to a double black, resolve the double black, then delete the node
             node.blackHeight = 2;
             resolveDoubleBlack(node);
             deleteNode(node);
+            this.size--;
             return node.data;
         }
         T data = node.data;
@@ -307,12 +310,14 @@ public class RedBlackTree<T extends Comparable<T>> implements IExtendedSortedCol
             System.out.println("Case 1");
             node.data = node.leftChild.data;
             deleteNode(node.leftChild);
+            this.size--;
             return data;
         }
         if(node.leftChild == null){
             System.out.println("Case 1");
             node.data = node.rightChild.data;
             deleteNode(node.rightChild);
+            this.size--;
             return data;
         }
         //two children
