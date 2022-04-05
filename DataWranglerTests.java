@@ -387,7 +387,7 @@ public class DataWranglerTests {
     public void testFileLoaded() {
         // Run the frontend and save a task
         TaskScheduleUI frontend1 = new TaskScheduleUI(new TaskSchedulerBackend());
-        TextUITester tester1 = new TextUITester("1\nFinish Semester\n05/05/2022\n23:59\n6\n");
+        TextUITester tester1 = new TextUITester("1\nFinish finals\n13/05/2022\n23:59\n6\n");
         frontend1.runCommandLoop();
         tester1.checkOutput();
 
@@ -398,6 +398,6 @@ public class DataWranglerTests {
         String output = tester2.checkOutput();
 
         // Frontend should have printed the Task name
-        assertTrue(output.contains("Finish Semester"));
+        assertTrue(output.contains("Finish finals"));
     }
 }
