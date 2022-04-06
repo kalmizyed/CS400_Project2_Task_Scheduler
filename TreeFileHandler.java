@@ -7,6 +7,7 @@
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.Iterator;
@@ -125,14 +126,16 @@ public class TreeFileHandler implements ITreeFileHandler {
     public boolean writeTreeToFile(File f, IExtendedSortedCollection<ITask> tree) {
         PrintWriter output;
         try {
+            f.createNewFile(); // Create the file if it doesn't exist yet
             output = new PrintWriter(f);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             return false;
         }
 
+        // Iterate through all tasks in level-order and add them to the XML file
         Iterator<ITask> tasks = tree.levelOrderIterator();
 
-        output.println("<tasks>");
+        output.println("<tasks>"); // Root element holding all tasks
         while (tasks.hasNext()) {
             ITask task = tasks.next();
             output.println("    <task>");

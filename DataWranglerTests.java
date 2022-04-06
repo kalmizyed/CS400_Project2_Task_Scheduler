@@ -363,14 +363,14 @@ public class DataWranglerTests {
         frontend.runCommandLoop();
         tester.checkOutput();
 
-        File dataFile = new File("data.xml");
+        File dataFile = new File("tasks.xml");
 
         // Test that the output file contains the Task name
         try {
             Scanner data = new Scanner(dataFile);
             boolean containsTask = false;
-            while(data.hasNext()) {
-                if (data.next().contains("Finish Semester")) containsTask = true;
+            while(data.hasNextLine()) {
+                if (data.nextLine().contains("Finish Semester")) containsTask = true;
             }
             data.close();
             assertTrue(containsTask);
