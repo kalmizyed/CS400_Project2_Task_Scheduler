@@ -7,7 +7,7 @@ run: TaskSchedulerApp.class TaskSchedulerBackend.class
 clean:
 	rm *.class
 
-runTests: runDataWranglerTests runAlgorithmEngineerTests runFrontendDeveloperTests runBackendDeveloperTests
+runTests: runFrontendDeveloperTests runDataWranglerTests runAlgorithmEngineerTests runBackendDeveloperTests
 
 TaskSchedulerApp.class: TaskSchedulerApp.java
 	javac TaskSchedulerApp.java

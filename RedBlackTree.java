@@ -428,7 +428,7 @@ protected Node<T> root; // reference to root node of tree, null when empty
      */
     public Iterator<T> levelOrderIterator() {
         LinkedList<Node<T>> q = new LinkedList<>();
-        q.add(this.root);
+        if(root != null) q.add(root);
         LinkedList<T> levelOrderList = new LinkedList<T>();
         while(!q.isEmpty()){
             Node<T> next = q.removeFirst();
@@ -436,13 +436,13 @@ protected Node<T> root; // reference to root node of tree, null when empty
             if(next.rightChild != null) q.add(next.rightChild);
             levelOrderList.add(next.data);
         }
-        if(levelOrderList.getFirst() instanceof Task){
-            System.out.print("[");
-            for(T data : levelOrderList){
-                System.out.print(" " + ((Task)data).getName() + " ");
-            }
-            System.out.println("]");
-        }
+        // if(levelOrderList.getFirst() instanceof Task){
+        //     System.out.print("[");
+        //     for(T data : levelOrderList){
+        //         System.out.print(" " + ((Task)data).getName() + " ");
+        //     }
+        //     System.out.println("]");
+        // }
         return levelOrderList.iterator();
     }
 

@@ -37,7 +37,7 @@ public class TaskSchedulerBackend implements ITaskSchedulerBackend{
             System.out.println(task.getDate());
             tree.insert(task);
         }
-        catch(ParseException e){
+        catch(ParseException | IllegalArgumentException | NullPointerException e){
             return false;
         }
         return true;
