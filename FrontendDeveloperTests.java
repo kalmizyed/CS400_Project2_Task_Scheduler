@@ -121,7 +121,7 @@ class FrontendDeveloperTests {
     String output;
     TextUITester tester;
     
-    tester = new TextUITester("1\nhw1\n06/04/2022\n06:30\n1\nhw2\n06/05/2022\n06:30\n2\n1\n6\n");
+    tester = new TextUITester("1\nhw1\n06/04/2022\n06:30\n2\n1\n6\n");
     frontend.runCommandLoop();
     output = tester.checkOutput();
     if (!output.contains("Task successfully completed."))
@@ -158,12 +158,11 @@ class FrontendDeveloperTests {
     String output;
     TextUITester tester;
     
-    tester = new TextUITester("1\nhw1\n06/04/2022\n06:30\n1\nhw1\n06/04/2022\n06:30\n6\n");
+    tester = new TextUITester("2\n1\n1\nhw1\n06/04/2022\n06:30\n1\nhw1\n06/04/2022\n06:30\n6\n");
     frontend.runCommandLoop();
     output = tester.checkOutput();
     
-    
-    assertTrue(output.contains("Invalid task. Try again."));
+    if (!output.contains("Invalid task. Try again.")) fail("didn't fail on duplicate task");
   }
   
   /**
@@ -171,20 +170,22 @@ class FrontendDeveloperTests {
    */
   @Test
   void testDisplayTasksBetweenDates() {
+
     TaskSchedulerBackend backend = new TaskSchedulerBackend();
     TaskScheduleUI frontend = new TaskScheduleUI(backend);
     
     String output;
     TextUITester tester;
     
-    String testString = "1\nhw1\n06/04/2022\n07:30\n5\n06/01/2022-06:30\n06/10/2022-06:30\n6\n";
+    String testString = "2\n1\n2\n1\n1\nhw1\n07/04/2022\n07:30\n1\nhw2\n07/05/2022\n"
+        + "06:30\n3\n5\n07/01/2022-06:30\n07/10/2022-06:30\n6\n";
     
     tester = new TextUITester(testString);
     
     frontend.runCommandLoop();
     output = tester.checkOutput();
-    assertTrue(output.contains("hw1 | by Sat Jun 04 07:30:00 CDT 2022"));
-    //assertTrue(output.contains("hw2 | by Sun Jun 05 06:30:00 CDT 2022"));
+    if (!output.contains("Tasks:")) fail("Tasks not printed");
+    if (output.contains("Invalid dates.")) fail("dates are valid, but said they aren't");
   }
   
   /**
