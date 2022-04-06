@@ -7,10 +7,7 @@
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.zip.DataFormatException;
-import java.io.FileNotFoundException;
 import java.text.ParseException;
-import java.util.Date;
 
 public class TaskScheduleUI implements ITaskSchedulerFrontend{
 
@@ -140,9 +137,11 @@ public class TaskScheduleUI implements ITaskSchedulerFrontend{
       String newDate = date + "-" + time;
       
       if (taskScheduler.addTask(newDate, newName)) {
+        System.out.println(newDate);
         System.out.println();
         System.out.println("Task Added! " + newName + " by " + time + " " + date);
         System.out.println();
+        System.out.println("hi");
       }
       else {
         System.out.println();
@@ -161,25 +160,31 @@ public class TaskScheduleUI implements ITaskSchedulerFrontend{
       List<ITask> taskList = taskScheduler.getAllTasks();
       
       int iterate = 0;
-      for (ITask task : taskList) {
-        iterate++;
-        System.out.println(iterate + ": " + task.getName() + " | by " + task.getDate());
-      }
       
-      System.out.println("Which task did you complete? (Enter task number): ");
-      int taskNum = Integer.parseInt(scanner.nextLine()) - 1;
-      
-      if (taskNum > taskList.size() || taskNum < 0) 
-        System.out.println("Invalid task number. Try Again.");
-      else {
-        for (int i = 0; i < taskList.size(); i++) {
-          if (i == taskNum) {
-            taskScheduler.removeTask(taskList.get(i));
-            System.out.println("Task successfully completed.");
-            System.out.println();
+      if(!taskList.isEmpty()) {
+        for (ITask task : taskList) {
+          iterate++;
+          System.out.println(iterate + ": " + task.getName() + " | by " + task.getDate());
+        }
+        
+        System.out.println("Which task did you complete? (Enter task number): ");
+        int taskNum = Integer.parseInt(scanner.nextLine()) - 1;
+        
+        if (taskNum > taskList.size() || taskNum < 0) 
+          System.out.println("Invalid task number. Try Again.");
+        else {
+          for (int i = 0; i < taskList.size(); i++) {
+            if (i == taskNum) {
+              taskScheduler.removeTask(taskList.get(i));
+              System.out.println("Task successfully completed.");
+              System.out.println();
+            }
           }
         }
       }
+      else System.out.println("No tasks to complete.");
+      
+      System.out.println();
       
       showCommandMenu();
     }
@@ -206,12 +211,16 @@ public class TaskScheduleUI implements ITaskSchedulerFrontend{
       
       try {
         List<ITask> betweenList = taskScheduler.getBetweenDates(min, max);
+        
+        System.out.println();
+        System.out.println("Tasks: ");
         for (ITask task : betweenList) {
           System.out.println(task.getName() + " | by " + task.getDate());
         }
       } catch (ParseException e) {
           System.out.println("Invalid dates");
       }
+      System.out.println();
       
       showCommandMenu();
     }
